@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply m-0 p-0 relative overflow-x-hidden box-border;
+  }
+  h1 {
+    @apply text-4xl font-manrope font-extrabold dark:text-white text-black;
+  }
+
+  p {
+    @apply text-base font-manrope text-dark-gray;
+  }
+  .sb {
+    @apply border border-red-500;
+  }
+
+  .scroll::-webkit-scrollbar {
+    @apply w-[3px];
+  }
+
+  .scroll::-webkit-scrollbar-thumb {
+    @apply dark:bg-gray-700 bg-gray-300 rounded;
+  }
+}
