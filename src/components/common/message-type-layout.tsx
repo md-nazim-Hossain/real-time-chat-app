@@ -1,3 +1,4 @@
+import { MessageOptions } from "@app/(dashboard)/chat/_components/message-type";
 import { cn } from "@nextui-org/react";
 import React from "react";
 
@@ -24,6 +25,7 @@ function MessageTypeLayout({
       >
         {children}
       </div>
+      <MessageOptions />
     </div>
   );
 }

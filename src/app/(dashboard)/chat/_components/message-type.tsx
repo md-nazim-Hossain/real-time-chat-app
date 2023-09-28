@@ -1,9 +1,20 @@
 "use client";
 
 import MessageTypeLayout from "@components/common/message-type-layout";
-import { Avatar, Button, Divider, Link, cn } from "@nextui-org/react";
+import { Message_options } from "@data/data";
+import {
+  Avatar,
+  Button,
+  Divider,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+  Link,
+  cn,
+} from "@nextui-org/react";
 import { IChatHistory } from "@type/index";
-import { DownloadSimple } from "phosphor-react";
+import { DotsThreeVertical, DownloadSimple } from "phosphor-react";
 
 type TimeLineProps = {
   text: string;
@@ -15,21 +26,6 @@ function MessageTimeline({ text }: TimeLineProps) {
       <p className="text-deep-gray font-semibold text-sm">{text}</p>
       <Divider className="w-[45%]" />
     </div>
-  );
-}
-
-function TextMessage({ item }: { item: IChatHistory }) {
-  return (
-    <MessageTypeLayout incoming={item?.incoming}>
-      <p
-        className={cn(
-          "font-semibold text-sm",
-          item?.incoming ? "text-black dark:text-white" : "text-white"
-        )}
-      >
-        {item?.message}
-      </p>
-    </MessageTypeLayout>
   );
 }
 
@@ -111,10 +107,50 @@ function DocumentMessage({ item }: { item: IChatHistory }) {
   );
 }
 
+function TextMessage({ item }: { item: IChatHistory }) {
+  return (
+    <MessageTypeLayout incoming={item?.incoming}>
+      <p
+        className={cn(
+          "font-semibold text-sm",
+          item?.incoming ? "text-black dark:text-white" : "text-white"
+        )}
+      >
+        {item?.message}
+      </p>
+    </MessageTypeLayout>
+  );
+}
+
+const MessageOptions = () => {
+  return (
+    <Dropdown placement="right-start">
+      <DropdownTrigger className="cursor-pointer">
+        <DotsThreeVertical size={20} />
+      </DropdownTrigger>
+      <DropdownMenu aria-label="Static Actions" variant="flat">
+        {Message_options.map((item, index: number) => {
+          const isDelete = Message_options.length - 1 === index;
+          return (
+            <DropdownItem
+              key={index}
+              className={isDelete ? "text-danger" : ""}
+              color={isDelete ? "danger" : "primary"}
+            >
+              {item.title}
+            </DropdownItem>
+          );
+        })}
+      </DropdownMenu>
+    </Dropdown>
+  );
+};
+
 export {
   DocumentMessage,
   LinkMessage,
   MediaMessage,
+  MessageOptions,
   MessageTimeline,
   ReplyMessage,
   TextMessage,

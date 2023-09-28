@@ -1,30 +1,34 @@
 import { Actions } from "@data/data";
-import {
-  Button,
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@nextui-org/react";
+import { Button, Tooltip, cn } from "@nextui-org/react";
 import { IActions } from "@type/index";
-import { ReactNode } from "react";
+import { Dispatch, SetStateAction } from "react";
 
 type Props = {
-  trigger: ReactNode;
+  openActions: boolean;
+  setOpenActions: Dispatch<SetStateAction<boolean>>;
 };
-function ChatFooterActions({ trigger }: Props) {
+function ChatFooterActions({ openActions, setOpenActions }: Props) {
   return (
-    <Popover key={"top"} placement={"top-start"} color="primary">
-      <PopoverTrigger>{trigger}</PopoverTrigger>
-      <PopoverContent>
+    <div className="w-max">
+      <div className={cn("relative", openActions ? "block" : "hidden")}>
         {Actions.map((item: IActions, index: number) => {
           return (
-            <Button key={index} variant={"shadow"} isIconOnly color={"default"}>
-              <item.icon size={24} />
-            </Button>
+            <Tooltip placement="right" content={item.title} key={index}>
+              <Button
+                onClick={() => setOpenActions(!openActions)}
+                style={{ background: item.color, top: -item.y + "px" }}
+                isIconOnly
+                className={cn(
+                  `rounded-full w-10 h-10 absolute z-50 text-white hover:!bg-green-800`
+                )}
+              >
+                <item.icon size={20} />
+              </Button>
+            </Tooltip>
           );
         })}
-      </PopoverContent>
-    </Popover>
+      </div>
+    </div>
   );
 }
 

@@ -4,6 +4,7 @@ import React from "react";
 import Chat from "./_components/chat";
 import ChatFooter from "./_components/chat-footer";
 import ChatNavbar from "./_components/chat-navbar";
+import Contact from "./_components/contact";
 
 function ChatLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -14,6 +15,7 @@ function ChatLayout({ children }: { children: React.ReactNode }) {
         <div className="h-[calc(100vh_-_140px)]">{children}</div>
         <ChatFooter />
       </div>
+      <Contact />
     </div>
   );
 }

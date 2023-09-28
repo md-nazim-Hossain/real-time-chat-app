@@ -4,8 +4,10 @@ import {
   Camera,
   ChatCircleDots,
   File,
+  Gear,
   Image,
   Phone,
+  SignOut,
   Sticker,
   User,
   Users,
@@ -427,32 +429,47 @@ const Actions: IActions[] = [
   {
     color: "#4da5fe",
     icon: Image,
-    y: 102,
+    y: 55,
     title: "Photo/Video",
   },
   {
     color: "#1b8cfe",
     icon: Sticker,
-    y: 172,
+    y: 110,
     title: "Stickers",
   },
   {
     color: "#0172e4",
     icon: Camera,
-    y: 242,
+    y: 165,
     title: "Image",
   },
   {
     color: "#0159b2",
     icon: File,
-    y: 312,
+    y: 220,
     title: "Document",
   },
   {
     color: "#013f7f",
     icon: User,
-    y: 382,
+    y: 275,
     title: "Contact",
+  },
+];
+
+const Profile_Menu = [
+  {
+    title: "Profile",
+    icon: User,
+  },
+  {
+    title: "Settings",
+    icon: Gear,
+  },
+  {
+    title: "Sign Out",
+    icon: SignOut,
   },
 ];
 
@@ -462,6 +479,7 @@ export {
   ChatList,
   Chat_History,
   Message_options,
+  Profile_Menu,
   Shared_docs,
   Shared_links,
   dashboardSidebarData,

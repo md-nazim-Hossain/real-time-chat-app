@@ -31,6 +31,7 @@ const ChatInput = ({
 }: {
   setOpenEmojiPicker: Dispatch<SetStateAction<boolean>>;
 }) => {
+  const [openActions, setOpenActions] = useState(false);
   return (
     <Input
       radius="md"
@@ -50,21 +51,24 @@ const ChatInput = ({
       }}
       placeholder="Type to search..."
       startContent={
-        <ChatFooterActions
-          trigger={
-            <div className="w-12 flex justify-center items-end overflow-hidden rounded-md">
-              <Button
-                size="md"
-                variant="light"
-                color="primary"
-                className="hover:!bg-transparent"
-                fullWidth
-              >
-                <LinkSimple size={24} />
-              </Button>
-            </div>
-          }
-        />
+        <div>
+          <ChatFooterActions
+            openActions={openActions}
+            setOpenActions={setOpenActions}
+          />
+          <div className="w-12 flex justify-center items-end overflow-hidden rounded-md">
+            <Button
+              onClick={() => setOpenActions((prev) => !prev)}
+              size="md"
+              variant="light"
+              color="primary"
+              className="hover:!bg-transparent"
+              fullWidth
+            >
+              <LinkSimple size={24} />
+            </Button>
+          </div>
+        </div>
       }
       endContent={
         <div className="w-12 flex justify-center items-end overflow-hidden rounded-md">

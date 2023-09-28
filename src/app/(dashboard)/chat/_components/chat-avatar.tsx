@@ -7,12 +7,20 @@ type Props = {
   chat: IChatList;
   currentChat?: boolean;
   isChat?: boolean;
+  onClick?: () => void;
 };
-function ChatAvatar({ chat, currentChat = false, isChat = false }: Props) {
+function ChatAvatar({
+  chat,
+  currentChat = false,
+  isChat = false,
+  onClick,
+}: Props) {
   return (
     <div className="flex items-center gap-4">
       <div className="w-12 h-12 relative">
         <Avatar
+          as={"button"}
+          onClick={onClick}
           className="w-full h-full"
           alt={"My Avatar " + chat.id}
           src={chat.img}

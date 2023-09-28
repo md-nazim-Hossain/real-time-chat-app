@@ -1,12 +1,13 @@
 "use client";
 
 import { dashboardSidebarData } from "@data/data";
-import { Avatar, Button, Divider, Image, Switch } from "@nextui-org/react";
+import { Button, Divider, Image, Switch } from "@nextui-org/react";
 import { ISidebar } from "@type/index";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Gear } from "phosphor-react";
+import ProfileMenu from "./profile-menu";
 
 function DashboardSidebar() {
   const pathname = usePathname();
@@ -63,10 +64,7 @@ function DashboardSidebar() {
       </div>
       <div className="gap-6 flex flex-col items-center justify-center">
         <ThemeToggle />
-        <Avatar
-          alt="My Avatar"
-          src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
-        />
+        <ProfileMenu />
       </div>
     </div>
   );
