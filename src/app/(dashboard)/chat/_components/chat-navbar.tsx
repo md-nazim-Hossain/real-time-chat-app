@@ -1,19 +1,23 @@
 "use client";
 
-import { ChatList } from "@data/data";
 import { Button, Divider } from "@nextui-org/react";
 import { toggleSidebar } from "@redux/slice/chatContactSlice";
 import { useAppDispatch } from "@redux/store";
+import { IChatList } from "@type/index";
 import { CaretDown, MagnifyingGlass, Phone, VideoCamera } from "phosphor-react";
 import ChatAvatar from "./chat-avatar";
 
-function ChatNavbar() {
+type Props = {
+  chat: IChatList;
+};
+function ChatNavbar({ chat }: Props) {
   const dispatch = useAppDispatch();
+
   return (
-    <div className="flex items-center justify-between w-full dark:bg-dark-light bg-light h-[70px] px-6 py-5 shadow-sidebar">
+    <div className="flex items-center justify-between w-full dark:bg-dark-light bg-light h-[70px] px-5 shadow-sidebar">
       <ChatAvatar
         onClick={() => dispatch(toggleSidebar())}
-        chat={ChatList[0]}
+        chat={chat}
         isChat={true}
       />
       <div className="flex items-center gap-3">

@@ -39,7 +39,7 @@ function ChatAvatar({
             currentChat ? "text-white " : "text-[#030303] dark:text-white"
           )}
         >
-          Nazim
+          {chat.name}
         </p>
         <p
           className={cn(
@@ -51,7 +51,7 @@ function ChatAvatar({
               : "text-[#7C7C7D]"
           )}
         >
-          {isChat ? "Online" : "Hello world..."}
+          {isChat ? "Online" : chat.msg}
         </p>
       </div>
     </div>

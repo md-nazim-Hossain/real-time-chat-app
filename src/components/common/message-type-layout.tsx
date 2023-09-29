@@ -7,11 +7,13 @@ function MessageTypeLayout({
   children,
   className,
   style,
+  showMenu = true,
 }: {
   incoming: boolean;
   children: React.ReactNode;
   className?: string;
   style?: React.CSSProperties;
+  showMenu?: boolean;
 }) {
   return (
     <div className={cn("flex ", incoming ? "justify-start" : "justify-end")}>
@@ -19,13 +21,13 @@ function MessageTypeLayout({
         style={style}
         className={cn(
           "w-max mb-4 p-3 rounded-xl",
-          incoming ? "bg-white dark:bg-dark-light" : "bg-primary",
+          incoming ? "bg-white dark:bg-[#18191A]" : "bg-primary",
           className
         )}
       >
         {children}
       </div>
-      <MessageOptions />
+      {showMenu && <MessageOptions />}
     </div>
   );
 }

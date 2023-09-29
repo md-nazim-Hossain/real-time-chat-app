@@ -12,6 +12,8 @@ const config: Config = {
       colors: {
         "dark-gray": "#676667",
         "deep-gray": "#696969",
+        "extra-dark-gray": "#424242",
+        muted: "#727375",
         light: "#F8FAFF",
         "dark-light": "#161C24",
         "theme-light": "#F0F4FA",

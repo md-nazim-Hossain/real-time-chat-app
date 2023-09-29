@@ -15,6 +15,7 @@ function ProfileMenu() {
           as="button"
           alt="My Avatar"
           src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
+          className="w-12 h-12"
         />
       </DropdownTrigger>
       <DropdownMenu aria-label="Profile Actions" variant="flat">

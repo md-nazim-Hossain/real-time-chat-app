@@ -37,3 +37,12 @@ export interface IActions {
   y: number;
   title: string;
 }
+
+export interface ISettings {
+  key: number;
+  icon: React.ForwardRefExoticComponent<
+    IconProps & React.RefAttributes<SVGSVGElement>
+  >;
+  title: string;
+  onclick: Function | MouseEventHandler<HTMLDivElement>;
+}

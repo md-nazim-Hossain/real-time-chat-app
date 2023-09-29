@@ -3,17 +3,18 @@
 import MessageTypeLayout from "@components/common/message-type-layout";
 import { Message_options } from "@data/data";
 import {
-  Avatar,
   Button,
   Divider,
   Dropdown,
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
+  Image,
   Link,
   cn,
 } from "@nextui-org/react";
 import { IChatHistory } from "@type/index";
+import NextImage from "next/image";
 import { DotsThreeVertical, DownloadSimple } from "phosphor-react";
 
 type TimeLineProps = {
@@ -21,19 +22,31 @@ type TimeLineProps = {
 };
 function MessageTimeline({ text }: TimeLineProps) {
   return (
-    <div className="flex justify-between items-center">
-      <Divider className="w-[45%]" />
+    <div className="flex justify-between items-center pb-4">
+      <Divider className="w-[40%]" />
       <p className="text-deep-gray font-semibold text-sm">{text}</p>
-      <Divider className="w-[45%]" />
+      <Divider className="w-[40%]" />
     </div>
   );
 }
 
-const MediaMessage = ({ item }: { item: IChatHistory }) => {
+const MediaMessage = ({
+  item,
+  showMenu,
+}: {
+  item: IChatHistory;
+  showMenu?: boolean;
+}) => {
   return (
-    <MessageTypeLayout incoming={item?.incoming} className="space-y-2">
-      <Avatar
-        className="h-[180px] w-[250px]"
+    <MessageTypeLayout
+      showMenu={showMenu}
+      incoming={item?.incoming}
+      className="space-y-2"
+    >
+      <Image
+        as={NextImage}
+        width={250}
+        height={180}
         src={item?.img}
         alt={item.message}
         radius="md"
@@ -50,23 +63,50 @@ const MediaMessage = ({ item }: { item: IChatHistory }) => {
   );
 };
 
-function ReplyMessage({ item }: { item: IChatHistory }) {
+function ReplyMessage({
+  item,
+  showMenu,
+}: {
+  item: IChatHistory;
+  showMenu?: boolean;
+}) {
   return (
-    <MessageTypeLayout incoming={item?.incoming} className="space-y-2">
+    <MessageTypeLayout
+      showMenu={showMenu}
+      incoming={item?.incoming}
+      className="space-y-2"
+    >
       <p className="bg-white p-3 rounded-xl">{item?.message}</p>
       <p className="text-white">{item?.reply}</p>
     </MessageTypeLayout>
   );
 }
 
-function LinkMessage({ item }: { item: IChatHistory }) {
+function LinkMessage({
+  item,
+  className,
+  avatarProps,
+  showMenu,
+}: {
+  item: IChatHistory;
+  className?: string;
+  avatarProps?: [number, number?];
+  showMenu?: boolean;
+}) {
+  const width = avatarProps && avatarProps?.length > 0 ? avatarProps[0] : 250;
+  const height = avatarProps && avatarProps?.length > 1 ? avatarProps[1] : 180;
+
   return (
     <MessageTypeLayout
       incoming={item?.incoming}
-      className="space-y-1 p-0 !bg-transparent dark:!bg-dark-light"
+      className={cn("space-y-1 p-0", className)}
+      showMenu={showMenu}
     >
-      <Avatar
-        className="h-[180px] w-[250px]"
+      <Image
+        as={NextImage}
+        width={width}
+        height={height}
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         src={item?.preview}
         alt={item.message}
         radius="md"
@@ -81,18 +121,42 @@ function LinkMessage({ item }: { item: IChatHistory }) {
   );
 }
 
-function DocumentMessage({ item }: { item: IChatHistory }) {
+function DocumentMessage({
+  item,
+  className,
+  showMessage = true,
+  layoutClassName,
+  showMenu,
+}: {
+  item: IChatHistory;
+  className?: string;
+  showMessage?: boolean;
+  layoutClassName?: string;
+  showMenu?: boolean;
+}) {
   return (
-    <MessageTypeLayout incoming={item?.incoming} className="space-y-2 p-3 ">
-      <div className="flex justify-between items-center bg-theme-light dark:bg-theme-dark p-3 rounded-xl gap-5 min-w-[265px]">
-        <div className="flex items-center gap-5">
-          <Avatar
-            className="h-12 w-12 bg-transparent"
+    <MessageTypeLayout
+      incoming={item?.incoming}
+      className={cn("space-y-2 p-3", layoutClassName)}
+      showMenu={showMenu}
+    >
+      <div
+        className={cn(
+          "flex justify-between items-center bg-theme-light dark:bg-theme-dark p-3 rounded-xl gap-5 min-w-[265px]",
+          className
+        )}
+      >
+        <div className="flex items-center gap-5 flex-1">
+          <Image
+            as={NextImage}
+            width={48}
+            height={48}
+            className="bg-transparent"
             src={"/assets/images/download.svg"}
             alt={"download icon"}
             radius="md"
           />
-          <p className="text-black dark:text-white font-semibold">
+          <p className="text-black dark:text-white font-semibold line-clamp-1">
             Abstract.png
           </p>
         </div>
@@ -102,14 +166,22 @@ function DocumentMessage({ item }: { item: IChatHistory }) {
           </Button>
         </div>
       </div>
-      <p className="text-black dark:text-white">{item?.message}</p>
+      {showMessage && (
+        <p className="text-black dark:text-white">{item?.message}</p>
+      )}
     </MessageTypeLayout>
   );
 }
 
-function TextMessage({ item }: { item: IChatHistory }) {
+function TextMessage({
+  item,
+  showMenu,
+}: {
+  item: IChatHistory;
+  showMenu?: boolean;
+}) {
   return (
-    <MessageTypeLayout incoming={item?.incoming}>
+    <MessageTypeLayout incoming={item?.incoming} showMenu={showMenu}>
       <p
         className={cn(
           "font-semibold text-sm",

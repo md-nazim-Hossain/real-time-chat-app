@@ -1,9 +1,10 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
+type ChatSidebarType = "CONTACT" | "STARRED" | "SHARED";
 interface InitialStateProps {
   chatSidebar: {
     openChatContact: boolean;
-    type: string;
+    type: ChatSidebarType;
   };
 }
 
@@ -27,7 +28,7 @@ const chatContactSlice = createSlice({
     toggleSidebar: (state) => {
       state.chatSidebar.openChatContact = !state.chatSidebar.openChatContact;
     },
-    updateSidebarType: (state, action: PayloadAction<string>) => {
+    updateSidebarType: (state, action: PayloadAction<ChatSidebarType>) => {
       state.chatSidebar.type = action.payload;
     },
   },

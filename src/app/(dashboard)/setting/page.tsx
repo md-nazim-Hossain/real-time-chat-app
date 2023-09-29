@@ -1,5 +1,8 @@
+"use client";
+import EmptyPage from "@components/common/empty-page";
+
 function page() {
-  return <div>page</div>;
+  return <EmptyPage />;
 }
 
 export default page;

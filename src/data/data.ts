@@ -1,11 +1,24 @@
 import { faker } from "@faker-js/faker";
-import { IActions, IChatHistory, IChatList, ISidebar } from "@type/index";
 import {
+  IActions,
+  IChatHistory,
+  IChatList,
+  ISettings,
+  ISidebar,
+} from "@type/index";
+import {
+  Bell,
   Camera,
   ChatCircleDots,
   File,
   Gear,
   Image,
+  Info,
+  Key,
+  Keyboard,
+  Lock,
+  Note,
+  PencilCircle,
   Phone,
   SignOut,
   Sticker,
@@ -472,6 +485,56 @@ const Profile_Menu = [
     icon: SignOut,
   },
 ];
+const settingList: ISettings[] = [
+  {
+    key: 0,
+    icon: Bell,
+    title: "Notifications",
+    onclick: () => {},
+  },
+  {
+    key: 1,
+    icon: Lock,
+    title: "Privacy",
+    onclick: () => {},
+  },
+  {
+    key: 2,
+    icon: Key,
+    title: "Security",
+    onclick: () => {},
+  },
+  {
+    key: 3,
+    icon: PencilCircle,
+    title: "Theme",
+    onclick: () => {},
+  },
+  {
+    key: 4,
+    icon: Image,
+    title: "Chat Wallpaper",
+    onclick: () => {},
+  },
+  {
+    key: 5,
+    icon: Note,
+    title: "Request Account Info",
+    onclick: () => {},
+  },
+  {
+    key: 6,
+    icon: Keyboard,
+    title: "Keyboard Shortcuts",
+    onclick: () => {},
+  },
+  {
+    key: 7,
+    icon: Info,
+    title: "Help",
+    onclick: () => {},
+  },
+];
 
 export {
   Actions,
@@ -483,4 +546,5 @@ export {
   Shared_docs,
   Shared_links,
   dashboardSidebarData,
+  settingList,
 };

@@ -1,7 +1,8 @@
-import Conversations from "./_components/conversations";
+"use client";
+import EmptyPage from "@components/common/empty-page";
 
 function page() {
-  return <Conversations />;
+  return <EmptyPage />;
 }
 
 export default page;

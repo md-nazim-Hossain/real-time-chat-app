@@ -8,7 +8,7 @@ function EmojiPicker({ openEmojiPicker }: { openEmojiPicker: boolean }) {
   return (
     <div
       className={cn(
-        "fixed right-16 bottom-[70px] z-50",
+        "fixed right-28 bottom-[70px] z-50",
         !openEmojiPicker ? "hidden" : "block"
       )}
     >
