@@ -23,11 +23,11 @@ function TextInput({
       {...rest}
       variant="bordered"
       label={label || "Email"}
-      placeholder={placeholder || "Enter email"}
+      placeholder={placeholder}
       {...register(name)}
       isInvalid={errors[name] ? true : false}
       errorMessage={errors[name]?.message}
-      color={errors[name] ? "danger" : "success"}
+      color={errors[name] ? "danger" : "primary"}
     />
   );
 }

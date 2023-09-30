@@ -5,7 +5,7 @@ import NextLink from "next/link";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as z from "zod";
-import PasswordInput from "../_components/password-input";
+import PasswordInput from "../../../components/forms/password-input";
 const newPasswordSchema = z
   .object({
     password: z
@@ -62,11 +62,9 @@ function NewPasswordForm() {
           register={register}
           name="password"
           label="New Password"
-          placeholder="Enter new password"
         />
         <PasswordInput
           label="Confirm Password"
-          placeholder="Enter confirm password"
           errors={errors}
           register={register}
           name="confirm_password"

@@ -4,22 +4,29 @@ import UserChat from "@components/common/user-chat";
 import { ChatList } from "@data/data";
 import { Button, Divider, Input } from "@nextui-org/react";
 import { IChatList } from "@type/index";
-import { ArchiveBox, CircleDashed, MagnifyingGlass } from "phosphor-react";
+import { CircleDashed, MagnifyingGlass } from "phosphor-react";
 
-function Chat() {
+type Props = {
+  title: string;
+  children: React.ReactNode;
+  isGroup?: boolean;
+};
+function GroupChatUserList({ title, children, isGroup = false }: Props) {
   return (
     <div className="relative w-[340px] h-full dark:bg-dark-light bg-light  shadow-sidebar">
       <div className="p-5 pb-0">
         <div className="flex items-center justify-between">
-          <h1>Chats</h1>
-          <Button
-            size="lg"
-            variant="light"
-            isIconOnly
-            aria-label={"circle dashed"}
-          >
-            <CircleDashed color="#676667" size={"32px"} />
-          </Button>
+          <h1>{title}</h1>
+          {!isGroup && (
+            <Button
+              size="lg"
+              variant="light"
+              isIconOnly
+              aria-label={"circle dashed"}
+            >
+              <CircleDashed color="#676667" size={"32px"} />
+            </Button>
+          )}
         </div>
         <div className="pt-8 pb-9">
           <Input
@@ -56,17 +63,7 @@ function Chat() {
           />
         </div>
 
-        <div className="flex items-center gap-3">
-          <ArchiveBox size={24} />
-          <Button
-            radius="sm"
-            color="secondary"
-            variant="light"
-            className=" hover:!bg-transparent font-manrope font-bold"
-          >
-            Archive
-          </Button>
-        </div>
+        {children}
         <Divider className="mt-4" />
       </div>
       <div className="w-full max-h-[calc(100vh_-_243px)] overflow-y-auto scroll pb-5">
@@ -80,7 +77,7 @@ function Chat() {
             )}
           </div>
 
-          <p className="font-bold pt-7 pb-5">All Chats</p>
+          <p className="font-bold pt-7 pb-5">All {title}</p>
           <div className="space-y-5">
             {ChatList.filter((chat) => !chat.pinned).map(
               (chat: IChatList, index: number) => {
@@ -94,4 +91,4 @@ function Chat() {
   );
 }
 
-export default Chat;
+export default GroupChatUserList;

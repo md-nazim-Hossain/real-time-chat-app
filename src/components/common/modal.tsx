@@ -15,6 +15,7 @@ type Props = {
   trigger?: React.ReactNode;
   button?: React.ReactNode;
   isCancelButton?: boolean;
+  footer?: React.ReactNode;
   [x: string]: any;
 };
 export default function ModalContainer({
@@ -49,20 +50,22 @@ export default function ModalContainer({
             <>
               <ModalHeader>{title}</ModalHeader>
               <ModalBody>{children}</ModalBody>
-              <ModalFooter>
-                {isCancelButton && (
-                  <Button
-                    color="default"
-                    variant="bordered"
-                    radius="sm"
-                    onPress={onClose}
-                    className="border-1"
-                  >
-                    Cancel
-                  </Button>
-                )}
-                {button}
-              </ModalFooter>
+              {(button || isCancelButton) && (
+                <ModalFooter>
+                  {isCancelButton && (
+                    <Button
+                      color="default"
+                      variant="bordered"
+                      radius="sm"
+                      onPress={onClose}
+                      className="border-1"
+                    >
+                      Cancel
+                    </Button>
+                  )}
+                  {button}
+                </ModalFooter>
+              )}
             </>
           )}
         </ModalContent>

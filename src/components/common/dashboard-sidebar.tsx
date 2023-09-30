@@ -11,7 +11,7 @@ import ProfileMenu from "./profile-menu";
 
 function DashboardSidebar() {
   const pathname = usePathname();
-  const settingActive = pathname === "/setting";
+  const settingActive = pathname === "/settings";
   return (
     <div className="shadow-sidebar dark:bg-theme-dark bg-theme-light w-[100px] h-screen py-5 flex flex-col items-center justify-between">
       <div>

@@ -21,9 +21,9 @@ function PasswordInput({ register, errors, name, label, placeholder }: Props) {
       label={label || "Password"}
       isInvalid={errors[name] ? true : false}
       errorMessage={errors[name]?.message}
-      placeholder={placeholder || "Enter password"}
+      placeholder={placeholder}
       {...register(name)}
-      color={errors[name] ? "danger" : "success"}
+      color={errors[name] ? "danger" : "primary"}
       endContent={
         <button
           className="focus:outline-none"

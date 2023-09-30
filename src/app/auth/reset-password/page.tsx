@@ -6,7 +6,7 @@ import NextLink from "next/link";
 import { ArrowLeft } from "phosphor-react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import z from "zod";
-import TextInput from "../_components/text-input";
+import TextInput from "../../../components/forms/text-input";
 const forgotPasswordSchema = z.object({
   email: z.string().nonempty("Email is required").email({
     message: "Invalid email",

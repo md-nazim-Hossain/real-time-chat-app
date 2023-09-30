@@ -5,8 +5,8 @@ import { Button, Link } from "@nextui-org/react";
 import NextLink from "next/link";
 import { SubmitHandler, useForm } from "react-hook-form";
 import z from "zod";
-import PasswordInput from "../_components/password-input";
-import TextInput from "../_components/text-input";
+import PasswordInput from "../../../components/forms/password-input";
+import TextInput from "../../../components/forms/text-input";
 const signInSchema = z.object({
   email: z.string().nonempty("Email is required").email({
     message: "Invalid email",

@@ -33,9 +33,9 @@ const dashboardSidebarData: ISidebar[] = [
     ariaLabel: "Chat",
   },
   {
-    href: "/users",
+    href: "/groups",
     Icon: Users,
-    ariaLabel: "Users",
+    ariaLabel: "Groups",
   },
   {
     href: "/phone",

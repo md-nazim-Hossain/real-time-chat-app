@@ -5,8 +5,8 @@ import { Button, Link } from "@nextui-org/react";
 import NextLink from "next/link";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as z from "zod";
-import PasswordInput from "../_components/password-input";
-import TextInput from "../_components/text-input";
+import PasswordInput from "../../../components/forms/password-input";
+import TextInput from "../../../components/forms/text-input";
 const registerSchema = z
   .object({
     first_name: z.string().nonempty("First name is required"),
@@ -70,14 +70,12 @@ function RegisterForm() {
             register={register}
             name="first_name"
             label="First Name"
-            placeholder="Enter first name"
           />
           <TextInput
             errors={errors}
             register={register}
             name="last_name"
             label="Last Name"
-            placeholder="Enter last name"
           />
         </div>
         <TextInput
@@ -89,7 +87,6 @@ function RegisterForm() {
         <PasswordInput errors={errors} register={register} name="password" />
         <PasswordInput
           label="Confirm Password"
-          placeholder="Enter confirm password"
           errors={errors}
           register={register}
           name="confirm_password"
