@@ -1,9 +1,9 @@
 "use client";
 
+import { DashboardTheme } from "@components/theme/theme";
 import { dashboardSidebarData } from "@data/data";
-import { Button, Divider, Image, Switch } from "@nextui-org/react";
+import { Button, Divider, Image } from "@nextui-org/react";
 import { ISidebar } from "@type/index";
-import { useTheme } from "next-themes";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Gear } from "phosphor-react";
@@ -51,7 +51,7 @@ function DashboardSidebar() {
         <Divider className="my-6" />
         <div className="flex items-center justify-center">
           <Button
-            href={`/setting`}
+            href={`/settings`}
             as={Link}
             variant={!settingActive ? "light" : "solid"}
             isIconOnly
@@ -63,7 +63,7 @@ function DashboardSidebar() {
         </div>
       </div>
       <div className="gap-6 flex flex-col items-center justify-center">
-        <ThemeToggle />
+        <DashboardTheme />
         <ProfileMenu />
       </div>
     </div>
@@ -71,21 +71,3 @@ function DashboardSidebar() {
 }
 
 export default DashboardSidebar;
-
-function ThemeToggle() {
-  const { setTheme, theme } = useTheme();
-
-  const toggleTheme = () => {
-    setTheme(theme === "light" ? "dark" : "light");
-  };
-
-  return (
-    <Switch
-      onClick={toggleTheme}
-      defaultSelected
-      aria-label="Automatic updates"
-      size="sm"
-      className="w-10 mx-auto"
-    />
-  );
-}

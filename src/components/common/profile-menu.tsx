@@ -1,3 +1,5 @@
+"use client";
+
 import { Profile_Menu } from "@data/data";
 import {
   Avatar,
@@ -6,8 +8,10 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
 
 function ProfileMenu() {
+  const router = useRouter();
   return (
     <Dropdown placement="right-end">
       <DropdownTrigger className="cursor-pointer">
@@ -19,9 +23,14 @@ function ProfileMenu() {
         />
       </DropdownTrigger>
       <DropdownMenu aria-label="Profile Actions" variant="flat">
-        {Profile_Menu.map((item) => {
+        {Profile_Menu.map((item, index: number) => {
           return (
-            <DropdownItem key={item.title} color={"primary"}>
+            <DropdownItem
+              onClick={() => item.onclick(router)}
+              key={index}
+              color={"primary"}
+              textValue={item.title}
+            >
               <div className="flex items-center justify-between">
                 <span>{item.title}</span>
                 <item.icon size={20} />

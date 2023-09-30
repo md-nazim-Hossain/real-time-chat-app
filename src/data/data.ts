@@ -475,14 +475,21 @@ const Profile_Menu = [
   {
     title: "Profile",
     icon: User,
+    onclick: (props?: any) => {},
   },
   {
     title: "Settings",
     icon: Gear,
+    onclick: (props?: any) => {
+      if (props) {
+        return props.push("/settings");
+      }
+    },
   },
   {
     title: "Sign Out",
     icon: SignOut,
+    onclick: (props?: any) => {},
   },
 ];
 const settingList: ISettings[] = [
@@ -490,7 +497,7 @@ const settingList: ISettings[] = [
     key: 0,
     icon: Bell,
     title: "Notifications",
-    onclick: () => {},
+    onclick: (props: any) => {},
   },
   {
     key: 1,
@@ -508,7 +515,9 @@ const settingList: ISettings[] = [
     key: 3,
     icon: PencilCircle,
     title: "Theme",
-    onclick: () => {},
+    onclick: (onOpen: () => void) => {
+      onOpen && onOpen();
+    },
   },
   {
     key: 4,
@@ -526,7 +535,9 @@ const settingList: ISettings[] = [
     key: 6,
     icon: Keyboard,
     title: "Keyboard Shortcuts",
-    onclick: () => {},
+    onclick: (onOpen: () => void) => {
+      onOpen && onOpen();
+    },
   },
   {
     key: 7,
@@ -536,11 +547,100 @@ const settingList: ISettings[] = [
   },
 ];
 
+const Keyboard_shortcuts = [
+  {
+    key: 0,
+    title: "Mark as unread",
+    combination: ["Cmd", "Shift", "U"],
+  },
+  {
+    key: 1,
+    title: "Mute",
+    combination: ["Cmd", "Shift", "M"],
+  },
+  {
+    key: 2,
+    title: "Archive Chat",
+    combination: ["Cmd", "Shift", "E"],
+  },
+  {
+    key: 3,
+    title: "Delete Chat",
+    combination: ["Cmd", "Shift", "D"],
+  },
+  {
+    key: 4,
+    title: "Pin Chat",
+    combination: ["Cmd", "Shift", "P"],
+  },
+  {
+    key: 5,
+    title: "Search",
+    combination: ["Cmd", "F"],
+  },
+  {
+    key: 6,
+    title: "Search Chat",
+    combination: ["Cmd", "Shift", "F"],
+  },
+  {
+    key: 7,
+    title: "Next Chat",
+    combination: ["Cmd", "N"],
+  },
+  {
+    key: 8,
+    title: "Next Step",
+    combination: ["Ctrl", "Tab"],
+  },
+  {
+    key: 9,
+    title: "Previous Step",
+    combination: ["Ctrl", "Shift", "Tab"],
+  },
+  {
+    key: 10,
+    title: "New Group",
+    combination: ["Cmd", "Shift", "N"],
+  },
+  {
+    key: 11,
+    title: "Profile & About",
+    combination: ["Cmd", "P"],
+  },
+  {
+    key: 12,
+    title: "Increase speed of voice message",
+    combination: ["Shift", "."],
+  },
+  {
+    key: 13,
+    title: "Decrease speed of voice message",
+    combination: ["Shift", ","],
+  },
+  {
+    key: 14,
+    title: "Settings",
+    combination: ["Shift", "S"],
+  },
+  {
+    key: 15,
+    title: "Emoji Panel",
+    combination: ["Cmd", "E"],
+  },
+  {
+    key: 16,
+    title: "Sticker Panel",
+    combination: ["Cmd", "S"],
+  },
+];
+
 export {
   Actions,
   CallList,
   ChatList,
   Chat_History,
+  Keyboard_shortcuts,
   Message_options,
   Profile_Menu,
   Shared_docs,

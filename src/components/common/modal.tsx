@@ -12,9 +12,10 @@ type Props = {
   onOpenChange?: (isOpen: boolean) => void;
   children: React.ReactNode;
   title: string | React.ReactNode;
-
   trigger?: React.ReactNode;
   button?: React.ReactNode;
+  isCancelButton?: boolean;
+  [x: string]: any;
 };
 export default function ModalContainer({
   isOpen,
@@ -23,11 +24,14 @@ export default function ModalContainer({
   title,
   trigger,
   button,
+  isCancelButton = true,
+  ...rest
 }: Props) {
   return (
     <>
       {trigger}
       <Modal
+        {...rest}
         backdrop="opaque"
         isOpen={isOpen}
         onOpenChange={onOpenChange}
@@ -35,7 +39,9 @@ export default function ModalContainer({
         classNames={{
           backdrop:
             "bg-gradient-to-bl from-black/50 to-black/10 backdrop-opacity-10",
-          base: "dark:bg-dark-light bg-light",
+          base: "dark:bg-dark-light bg-light ",
+          wrapper: "overflow-hidden",
+          body: "scroll",
         }}
       >
         <ModalContent>
@@ -44,15 +50,17 @@ export default function ModalContainer({
               <ModalHeader>{title}</ModalHeader>
               <ModalBody>{children}</ModalBody>
               <ModalFooter>
-                <Button
-                  color="default"
-                  variant="bordered"
-                  radius="sm"
-                  onPress={onClose}
-                  className="border-1"
-                >
-                  Cancel
-                </Button>
+                {isCancelButton && (
+                  <Button
+                    color="default"
+                    variant="bordered"
+                    radius="sm"
+                    onPress={onClose}
+                    className="border-1"
+                  >
+                    Cancel
+                  </Button>
+                )}
                 {button}
               </ModalFooter>
             </>
