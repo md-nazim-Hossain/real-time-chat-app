@@ -46,3 +46,13 @@ export interface ISettings {
   title: string;
   onclick: Function | MouseEventHandler<HTMLDivElement>;
 }
+
+export interface ICall {
+  id: number;
+  img: string;
+  name: string;
+  online: boolean;
+  incoming: boolean;
+  missed: boolean;
+  type: "video" | "audio";
+}

@@ -5,7 +5,7 @@ import { toggleSidebar } from "@redux/slice/chatContactSlice";
 import { useAppDispatch } from "@redux/store";
 import { IChatList } from "@type/index";
 import { CaretDown, MagnifyingGlass, Phone, VideoCamera } from "phosphor-react";
-import ChatAvatar from "./chat-avatar";
+import ChatAvatar from "../../../../components/common/chat-avatar";
 
 type Props = {
   chat: IChatList;

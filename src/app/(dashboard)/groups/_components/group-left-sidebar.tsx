@@ -1,15 +1,15 @@
 "use client";
 
-import GroupChatUserList from "@components/common/group-chat-user-list";
+import LeftSideBar from "@components/common/left-sidebar";
 import { Button, useDisclosure } from "@nextui-org/react";
 import { Plus } from "phosphor-react";
 import CreateGroup from "./create-group";
 
-function GroupRightSidebar() {
+function GroupLeftSidebar() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   return (
     <div>
-      <GroupChatUserList title="Groups" isGroup={true}>
+      <LeftSideBar title="Groups" isGroup={true}>
         <div className="flex items-center justify-between">
           <p className="text-secondary font-bold">Create New Group</p>
           <Button
@@ -22,10 +22,10 @@ function GroupRightSidebar() {
             <Plus size={20} />
           </Button>
         </div>
-      </GroupChatUserList>
+      </LeftSideBar>
       <CreateGroup isOpen={isOpen} onOpenChange={onOpenChange} />
     </div>
   );
 }
 
-export default GroupRightSidebar;
+export default GroupLeftSidebar;

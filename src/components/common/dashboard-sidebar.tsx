@@ -32,7 +32,7 @@ function DashboardSidebar() {
             />
           </Button>
           {dashboardSidebarData.map((item: ISidebar, index: number) => {
-            const isActive = pathname === item.href;
+            const isActive = pathname.startsWith(item.href);
             return (
               <Button
                 key={index}

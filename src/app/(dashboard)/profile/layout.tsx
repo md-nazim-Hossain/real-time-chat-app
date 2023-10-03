@@ -1,0 +1,14 @@
+"use client";
+import React from "react";
+import ProfileLeftSidebar from "./_components/profile-left-sidebar";
+
+function ProfileLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="flex relative h-screen w-[calc(100vw_-_100px)]">
+      <ProfileLeftSidebar />
+      <div className="flex-1">{children}</div>
+    </div>
+  );
+}
+
+export default ProfileLayout;

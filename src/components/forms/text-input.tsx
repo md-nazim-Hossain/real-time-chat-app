@@ -5,24 +5,16 @@ type Props = {
   register: any;
   errors: any;
   name: string;
-  label?: string;
+
   placeholder?: string;
   [key: string]: any;
 };
-function TextInput({
-  register,
-  errors,
-  name,
-  label,
-  placeholder,
-  ...rest
-}: Props) {
+function TextInput({ register, errors, name, placeholder, ...rest }: Props) {
   return (
     <Input
       radius="sm"
       {...rest}
       variant="bordered"
-      label={label || "Email"}
       placeholder={placeholder}
       {...register(name)}
       isInvalid={errors[name] ? true : false}

@@ -1,6 +1,7 @@
 import { faker } from "@faker-js/faker";
 import {
   IActions,
+  ICall,
   IChatHistory,
   IChatList,
   ISettings,
@@ -38,13 +39,13 @@ const dashboardSidebarData: ISidebar[] = [
     ariaLabel: "Groups",
   },
   {
-    href: "/phone",
+    href: "/call",
     Icon: Phone,
-    ariaLabel: "Phone",
+    ariaLabel: "Call",
   },
 ];
 
-const CallList = [
+const CallList: ICall[] = [
   {
     id: 0,
     img: faker.image.url(),
@@ -52,6 +53,7 @@ const CallList = [
     online: true,
     incoming: true,
     missed: false,
+    type: "video",
   },
   {
     id: 1,
@@ -60,6 +62,7 @@ const CallList = [
     online: true,
     incoming: false,
     missed: true,
+    type: "audio",
   },
   {
     id: 2,
@@ -68,6 +71,7 @@ const CallList = [
     online: false,
     incoming: true,
     missed: true,
+    type: "audio",
   },
   {
     id: 3,
@@ -76,6 +80,7 @@ const CallList = [
     online: false,
     incoming: false,
     missed: false,
+    type: "audio",
   },
   {
     id: 4,
@@ -84,6 +89,7 @@ const CallList = [
     online: true,
     incoming: true,
     missed: false,
+    type: "audio",
   },
   {
     id: 5,
@@ -92,6 +98,7 @@ const CallList = [
     online: false,
     incoming: false,
     missed: false,
+    type: "video",
   },
   {
     id: 6,
@@ -100,6 +107,7 @@ const CallList = [
     online: true,
     incoming: true,
     missed: false,
+    type: "video",
   },
   {
     id: 7,
@@ -108,6 +116,7 @@ const CallList = [
     online: false,
     incoming: false,
     missed: false,
+    type: "audio",
   },
   {
     id: 8,
@@ -116,6 +125,7 @@ const CallList = [
     online: true,
     incoming: true,
     missed: false,
+    type: "video",
   },
   {
     id: 9,
@@ -124,6 +134,7 @@ const CallList = [
     online: false,
     incoming: false,
     missed: false,
+    type: "audio",
   },
   {
     id: 10,
@@ -132,6 +143,7 @@ const CallList = [
     online: true,
     incoming: true,
     missed: false,
+    type: "video",
   },
   {
     id: 11,
@@ -140,6 +152,7 @@ const CallList = [
     online: false,
     incoming: false,
     missed: false,
+    type: "audio",
   },
   {
     id: 12,
@@ -148,6 +161,7 @@ const CallList = [
     online: true,
     incoming: true,
     missed: false,
+    type: "video",
   },
 ];
 
@@ -475,7 +489,9 @@ const Profile_Menu = [
   {
     title: "Profile",
     icon: User,
-    onclick: (props?: any) => {},
+    onclick: (props?: any) => {
+      return props.push("/profile");
+    },
   },
   {
     title: "Settings",

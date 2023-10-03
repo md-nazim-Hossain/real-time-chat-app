@@ -1,16 +1,16 @@
 "use client";
 
-import ChatAvatar from "@app/(dashboard)/chat/_components/chat-avatar";
 import { Link, cn } from "@nextui-org/react";
 import { IChatList } from "@type/index";
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
+import ChatAvatar from "./chat-avatar";
 type Props = {
   chat: IChatList;
 };
 function UserChat({ chat }: Props) {
   const pathname = usePathname();
-  const currentChat = pathname === `/chat/${chat.id}`;
+  const currentChat = pathname === `/${chat.id}`;
   return (
     <Link
       href={`/chat/${chat.id}`}
