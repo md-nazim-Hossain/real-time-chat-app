@@ -8,10 +8,21 @@ import EmojiPicker from "./emoji-picker";
 
 function ChatFooter() {
   const [openEmojiPicker, setOpenEmojiPicker] = useState(false);
+  const [text, setText] = useState("");
   return (
     <div className="w-full dark:bg-dark-light bg-light h-[70px] px-6 py-5 flex justify-between items-center gap-6">
-      <ChatInput setOpenEmojiPicker={setOpenEmojiPicker} />
-      <EmojiPicker openEmojiPicker={openEmojiPicker} />
+      <ChatInput
+        setOpenEmojiPicker={setOpenEmojiPicker}
+        setText={setText}
+        text={text}
+      />
+      <EmojiPicker
+        openEmojiPicker={openEmojiPicker}
+        setOpenEmojiPicker={setOpenEmojiPicker}
+        onEmojiSelect={(e) => {
+          setText(text + e.native);
+        }}
+      />
       <Button
         variant={"solid"}
         isIconOnly
@@ -28,13 +39,20 @@ export default ChatFooter;
 
 const ChatInput = ({
   setOpenEmojiPicker,
+  text,
+  setText,
 }: {
   setOpenEmojiPicker: Dispatch<SetStateAction<boolean>>;
+  text: string;
+  setText: Dispatch<SetStateAction<string>>;
 }) => {
   const [openActions, setOpenActions] = useState(false);
+
   return (
     <Input
       radius="md"
+      value={text}
+      onChange={(e) => setText(e.target.value)}
       classNames={{
         input: [
           "bg-transparent",

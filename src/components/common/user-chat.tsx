@@ -3,14 +3,14 @@
 import { Link, cn } from "@nextui-org/react";
 import { IChatList } from "@type/index";
 import NextLink from "next/link";
-import { usePathname } from "next/navigation";
+import { useParams } from "next/navigation";
 import ChatAvatar from "./chat-avatar";
 type Props = {
   chat: IChatList;
 };
 function UserChat({ chat }: Props) {
-  const pathname = usePathname();
-  const currentChat = pathname === `/${chat.id}`;
+  const { id } = useParams();
+  const currentChat = +id === chat.id;
   return (
     <Link
       href={`/chat/${chat.id}`}
