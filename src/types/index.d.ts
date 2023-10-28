@@ -56,3 +56,24 @@ export interface ICall {
   missed: boolean;
   type: "video" | "audio";
 }
+
+type IApiResponse<T> = {
+  success: boolean;
+  message?: string | null;
+  statusCode: number;
+  data?: T | null;
+  meta?: {
+    page: number;
+    limit: number;
+    total: number;
+  } | null;
+};
+
+type IApiErrorResponse = {
+  success: boolean;
+  message: string;
+  errorMessages: Array<{
+    message: string;
+    path: string;
+  }>;
+};

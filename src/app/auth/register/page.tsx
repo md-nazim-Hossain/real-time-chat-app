@@ -83,6 +83,7 @@ function RegisterForm() {
           register={register}
           name="email"
           type="email"
+          label="Email"
         />
         <PasswordInput errors={errors} register={register} name="password" />
         <PasswordInput

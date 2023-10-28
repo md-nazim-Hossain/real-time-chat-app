@@ -2,11 +2,20 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Link } from "@nextui-org/react";
+import { IApiErrorResponse, IApiResponse } from "@type/index";
+import axios from "@utils/axios";
+import { logger } from "@utils/logger";
 import NextLink from "next/link";
 import { SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import z from "zod";
 import PasswordInput from "../../../components/forms/password-input";
 import TextInput from "../../../components/forms/text-input";
+
+import { cookie } from "@utils/cookie";
+import { useRouter } from "next/navigation";
+import { config } from "src/config";
+
 const signInSchema = z.object({
   email: z.string().nonempty("Email is required").email({
     message: "Invalid email",
@@ -23,7 +32,7 @@ function LoginForm() {
     reset,
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<ILoginProps>({
     defaultValues: {
       email: "",
@@ -31,9 +40,22 @@ function LoginForm() {
     },
     resolver: zodResolver(signInSchema),
   });
+
+  const router = useRouter();
   const onSubmit: SubmitHandler<ILoginProps> = async (values: ILoginProps) => {
-    console.log(values);
-    reset();
+    try {
+      const { data }: { data: IApiResponse<{ token: string }> } =
+        await axios.post("/auth/login", { ...values });
+      logger.log(data);
+      toast.success(data.message!);
+      reset();
+      cookie.set(data.data!.token, config.cookiesExpireTime);
+      router.push("/tawk/chat");
+    } catch (error: unknown) {
+      logger.log(error);
+      const err = (error as any)?.response?.data as IApiErrorResponse;
+      toast.error(err.message ?? "Something went wrong");
+    }
   };
 
   return (
@@ -53,13 +75,14 @@ function LoginForm() {
           register={register}
           name="email"
           type="email"
+          label="Email"
         />
         <PasswordInput errors={errors} register={register} name="password" />
         <div className="flex justify-end">
           <Link
             className="font-semibold text-sm hover:underline"
             as={NextLink}
-            href="/auth/reset-password"
+            href="/auth/forgot-password"
           >
             Forgotten Password
           </Link>
@@ -70,8 +93,9 @@ function LoginForm() {
           fullWidth
           color="primary"
           type="submit"
+          disabled={isSubmitting}
         >
-          Login
+          {isSubmitting ? "Submitting..." : "Login"}
         </Button>
       </form>
     </div>

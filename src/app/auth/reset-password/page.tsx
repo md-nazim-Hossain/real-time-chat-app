@@ -1,60 +1,73 @@
 "use client";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Link } from "@nextui-org/react";
 import NextLink from "next/link";
-import { ArrowLeft } from "phosphor-react";
+import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
-import z from "zod";
-import TextInput from "../../../components/forms/text-input";
-const forgotPasswordSchema = z.object({
-  email: z.string().nonempty("Email is required").email({
-    message: "Invalid email",
-  }),
-});
+import * as z from "zod";
+import PasswordInput from "../../../components/forms/password-input";
+const newPasswordSchema = z
+  .object({
+    password: z
+      .string()
+      .nonempty("Password is required")
+      .min(6, "Password is too short - should be 6 chars minimum"),
+    confirm_password: z
+      .string()
+      .nonempty("Password is required")
+      .min(6, "Password is too short - should be 6 chars minimum"),
+  })
+  .refine((value) => value.password === value.confirm_password, {
+    message: "Passwords do not match",
+    path: ["confirm_password"],
+  });
 
-type IForgotPasswordProps = z.infer<typeof forgotPasswordSchema>;
-function ForgotPassword() {
+type INewPasswordProps = z.infer<typeof newPasswordSchema>;
+function NewPasswordForm() {
   const {
     reset,
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<IForgotPasswordProps>({
+  } = useForm<INewPasswordProps>({
     defaultValues: {
-      email: "",
+      password: "",
+      confirm_password: "",
     },
-    resolver: zodResolver(forgotPasswordSchema),
+    resolver: zodResolver(newPasswordSchema),
   });
-  const onSubmit: SubmitHandler<IForgotPasswordProps> = async (
-    values: IForgotPasswordProps
+  const onSubmit: SubmitHandler<INewPasswordProps> = async (
+    values: INewPasswordProps
   ) => {
     console.log(values);
     reset();
   };
 
+  const router = useRouter();
+
   return (
-    <div className="space-y-5">
+    <div className="space-y-8">
       <div className="space-y-2">
-        <h2>Reset password</h2>
-        <p className="font-semibold">
-          Please provide your valid email address to reset your password
+        <h2>Set your New Password</h2>
+        <p className="font-semibold space-x-1">
+          <span>Bact to </span>
+          <Link as={NextLink} className="hover:underline" href="/auth/login">
+            Login
+          </Link>
         </p>
-        <Link
-          as={NextLink}
-          className="flex items-center gap-1 w-max"
-          href="/auth/login"
-        >
-          <ArrowLeft size={20} />
-          <span> Login</span>
-        </Link>
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-        <TextInput
+        <PasswordInput
           errors={errors}
           register={register}
-          name="email"
-          type="email"
+          name="password"
+          label="New Password"
+        />
+        <PasswordInput
+          label="Confirm Password"
+          errors={errors}
+          register={register}
+          name="confirm_password"
         />
 
         <Button
@@ -64,11 +77,11 @@ function ForgotPassword() {
           color="primary"
           type="submit"
         >
-          Send Request
+          Reset Password
         </Button>
       </form>
     </div>
   );
 }
 
-export default ForgotPassword;
+export default NewPasswordForm;

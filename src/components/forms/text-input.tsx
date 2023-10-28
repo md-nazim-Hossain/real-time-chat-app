@@ -5,11 +5,18 @@ type Props = {
   register: any;
   errors: any;
   name: string;
-
+  label?: string;
   placeholder?: string;
   [key: string]: any;
 };
-function TextInput({ register, errors, name, placeholder, ...rest }: Props) {
+function TextInput({
+  register,
+  errors,
+  label,
+  name,
+  placeholder,
+  ...rest
+}: Props) {
   return (
     <Input
       radius="sm"
@@ -20,6 +27,7 @@ function TextInput({ register, errors, name, placeholder, ...rest }: Props) {
       isInvalid={errors[name] ? true : false}
       errorMessage={errors[name]?.message}
       color={errors[name] ? "danger" : "primary"}
+      label={label}
     />
   );
 }

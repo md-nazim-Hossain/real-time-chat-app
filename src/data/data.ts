@@ -7,6 +7,8 @@ import {
   ISettings,
   ISidebar,
 } from "@type/index";
+import { cookie } from "@utils/cookie";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import {
   Bell,
   Camera,
@@ -29,17 +31,17 @@ import {
 
 const dashboardSidebarData: ISidebar[] = [
   {
-    href: "/chat",
+    href: "/tawk/chat",
     Icon: ChatCircleDots,
     ariaLabel: "Chat",
   },
   {
-    href: "/groups",
+    href: "/tawk/groups",
     Icon: Users,
     ariaLabel: "Groups",
   },
   {
-    href: "/call",
+    href: "/tawk/call",
     Icon: Phone,
     ariaLabel: "Call",
   },
@@ -489,23 +491,26 @@ const Profile_Menu = [
   {
     title: "Profile",
     icon: User,
-    onclick: (props?: any) => {
-      return props.push("/profile");
+    onclick: (props?: AppRouterInstance) => {
+      return props?.push("/tawk/profile");
     },
   },
   {
     title: "Settings",
     icon: Gear,
-    onclick: (props?: any) => {
+    onclick: (props?: AppRouterInstance) => {
       if (props) {
-        return props.push("/settings");
+        return props.push("/tawk/settings");
       }
     },
   },
   {
     title: "Sign Out",
     icon: SignOut,
-    onclick: (props?: any) => {},
+    onclick: (props?: AppRouterInstance) => {
+      cookie.remove();
+      props?.push("/auth/login");
+    },
   },
 ];
 const settingList: ISettings[] = [
