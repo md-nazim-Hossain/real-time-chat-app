@@ -1,9 +1,15 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Link } from "@nextui-org/react";
+import { IApiErrorResponse, IApiResponse } from "@type/index";
+import axiosInstance from "@utils/axios";
+import { cookie } from "@utils/cookie";
+import { logger } from "@utils/logger";
 import NextLink from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { config } from "src/config";
 import * as z from "zod";
 import PasswordInput from "../../../components/forms/password-input";
 const newPasswordSchema = z
@@ -12,14 +18,14 @@ const newPasswordSchema = z
       .string()
       .nonempty("Password is required")
       .min(6, "Password is too short - should be 6 chars minimum"),
-    confirm_password: z
+    passwordConfirm: z
       .string()
       .nonempty("Password is required")
       .min(6, "Password is too short - should be 6 chars minimum"),
   })
-  .refine((value) => value.password === value.confirm_password, {
+  .refine((value) => value.password === value.passwordConfirm, {
     message: "Passwords do not match",
-    path: ["confirm_password"],
+    path: ["passwordConfirm"],
   });
 
 type INewPasswordProps = z.infer<typeof newPasswordSchema>;
@@ -28,22 +34,35 @@ function NewPasswordForm() {
     reset,
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<INewPasswordProps>({
     defaultValues: {
       password: "",
-      confirm_password: "",
+      passwordConfirm: "",
     },
     resolver: zodResolver(newPasswordSchema),
   });
+  const router = useRouter();
+  const token = useSearchParams().get("code");
   const onSubmit: SubmitHandler<INewPasswordProps> = async (
     values: INewPasswordProps
   ) => {
-    console.log(values);
-    reset();
+    try {
+      const { data }: { data: IApiResponse<{ token: string }> } =
+        await axiosInstance.post("/auth/reset-password", {
+          password: values.password,
+          token,
+        });
+      toast.success("Password Reset successfully");
+      cookie.set(data.data!.token, config.cookiesExpireTime);
+      reset();
+      router.push("/tawk/chat");
+    } catch (error: unknown) {
+      logger.log(error);
+      const err = (error as any)?.response?.data as IApiErrorResponse;
+      toast.error(err.message ?? "Something went wrong");
+    }
   };
-
-  const router = useRouter();
 
   return (
     <div className="space-y-8">
@@ -67,17 +86,18 @@ function NewPasswordForm() {
           label="Confirm Password"
           errors={errors}
           register={register}
-          name="confirm_password"
+          name="passwordConfirm"
         />
 
         <Button
-          className="font-semibold"
+          className="font-semibold disabled:bg-opacity-50"
           radius="sm"
           fullWidth
           color="primary"
           type="submit"
+          disabled={isSubmitting}
         >
-          Reset Password
+          {isSubmitting ? "Resetting..." : "Reset Password"}
         </Button>
       </form>
     </div>

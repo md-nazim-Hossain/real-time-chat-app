@@ -30,7 +30,7 @@ function PasswordInput({ register, errors, name, label, placeholder }: Props) {
           type="button"
           onClick={toggleVisibility}
         >
-          {isVisible ? (
+          {!isVisible ? (
             <EyeSlash className="text-2xl text-default-400 pointer-events-none" />
           ) : (
             <Eye className="text-2xl text-default-400 pointer-events-none" />

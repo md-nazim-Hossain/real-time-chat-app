@@ -2,9 +2,13 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Link } from "@nextui-org/react";
+import { IApiErrorResponse } from "@type/index";
+import axiosInstance from "@utils/axios";
+import { logger } from "@utils/logger";
 import NextLink from "next/link";
 import { ArrowLeft } from "phosphor-react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import z from "zod";
 import TextInput from "../../../components/forms/text-input";
 const forgotPasswordSchema = z.object({
@@ -19,7 +23,7 @@ function ForgotPassword() {
     reset,
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<IForgotPasswordProps>({
     defaultValues: {
       email: "",
@@ -29,8 +33,18 @@ function ForgotPassword() {
   const onSubmit: SubmitHandler<IForgotPasswordProps> = async (
     values: IForgotPasswordProps
   ) => {
-    console.log(values);
-    reset();
+    try {
+      await axiosInstance.post("/auth/forgot-password", {
+        ...values,
+      });
+
+      toast.success("Reset password link sent to your email");
+      reset();
+    } catch (error: unknown) {
+      logger.log(error);
+      const err = (error as any)?.response?.data as IApiErrorResponse;
+      toast.error(err.message ?? "Something went wrong");
+    }
   };
 
   return (
@@ -59,13 +73,14 @@ function ForgotPassword() {
         />
 
         <Button
-          className="font-semibold"
+          className="font-semibold disabled:bg-opacity-50"
           radius="sm"
           fullWidth
           color="primary"
           type="submit"
+          disabled={isSubmitting}
         >
-          Send Request
+          {isSubmitting ? "Sending..." : "Send Request"}
         </Button>
       </form>
     </div>

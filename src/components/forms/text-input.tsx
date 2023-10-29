@@ -22,6 +22,7 @@ function TextInput({
       radius="sm"
       {...rest}
       variant="bordered"
+      fullWidth
       placeholder={placeholder}
       {...register(name)}
       isInvalid={errors[name] ? true : false}

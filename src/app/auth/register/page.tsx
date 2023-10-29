@@ -2,15 +2,21 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Link } from "@nextui-org/react";
+import { IApiErrorResponse, IApiResponse } from "@type/index";
+import axiosInstance from "@utils/axios";
+import { logger } from "@utils/logger";
 import NextLink from "next/link";
+import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { useSessionStorage } from "usehooks-ts";
 import * as z from "zod";
 import PasswordInput from "../../../components/forms/password-input";
 import TextInput from "../../../components/forms/text-input";
 const registerSchema = z
   .object({
-    first_name: z.string().nonempty("First name is required"),
-    last_name: z.string().nonempty("Last name is required"),
+    firstName: z.string().nonempty("First name is required"),
+    lastName: z.string().nonempty("Last name is required"),
     email: z.string().nonempty("Email is required").email({
       message: "Invalid email",
     }),
@@ -34,28 +40,42 @@ function RegisterForm() {
     reset,
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<IRegisterProps>({
     defaultValues: {
       email: "",
       password: "",
       confirm_password: "",
-      first_name: "",
-      last_name: "",
+      firstName: "",
+      lastName: "",
     },
     resolver: zodResolver(registerSchema),
   });
+  const [_, setEmail] = useSessionStorage("email", "");
+
+  const router = useRouter();
   const onSubmit: SubmitHandler<IRegisterProps> = async (
     values: IRegisterProps
   ) => {
-    console.log(values);
-    reset();
+    try {
+      const { data }: { data: IApiResponse<{ token: string }> } =
+        await axiosInstance.post("/auth/register", { ...values });
+      toast.success(data.message!);
+      logger.log(data);
+      reset();
+      setEmail(values.email);
+      router.push("/auth/verify");
+    } catch (error: unknown) {
+      logger.log(error);
+      const err = (error as any)?.response?.data as IApiErrorResponse;
+      toast.error(err.message ?? "Something went wrong");
+    }
   };
 
   return (
     <div className="space-y-5">
       <div className="space-y-2">
-        <h2>Register Wetalk account</h2>
+        <h2>Register a tawk account</h2>
         <p className="font-semibold space-x-1">
           <span>Already have an account?</span>
           <Link as={NextLink} className="hover:underline" href="/auth/login">
@@ -68,13 +88,13 @@ function RegisterForm() {
           <TextInput
             errors={errors}
             register={register}
-            name="first_name"
+            name="firstName"
             label="First Name"
           />
           <TextInput
             errors={errors}
             register={register}
-            name="last_name"
+            name="lastName"
             label="Last Name"
           />
         </div>
@@ -94,13 +114,14 @@ function RegisterForm() {
         />
 
         <Button
-          className="font-semibold"
+          className="font-semibold disabled:bg-opacity-50"
           radius="sm"
           fullWidth
           color="primary"
           type="submit"
+          disabled={isSubmitting}
         >
-          Create Account
+          {isSubmitting ? "Creating..." : "Create Account"}
         </Button>
       </form>
     </div>

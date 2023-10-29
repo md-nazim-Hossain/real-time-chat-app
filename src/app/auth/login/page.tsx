@@ -46,7 +46,6 @@ function LoginForm() {
     try {
       const { data }: { data: IApiResponse<{ token: string }> } =
         await axios.post("/auth/login", { ...values });
-      logger.log(data);
       toast.success(data.message!);
       reset();
       cookie.set(data.data!.token, config.cookiesExpireTime);
@@ -88,7 +87,7 @@ function LoginForm() {
           </Link>
         </div>
         <Button
-          className="font-semibold"
+          className="font-semibold disabled:bg-opacity-50"
           radius="sm"
           fullWidth
           color="primary"
