@@ -509,7 +509,7 @@ const Profile_Menu = [
     icon: SignOut,
     onclick: (props?: AppRouterInstance) => {
       cookie.remove();
-      props?.push("/auth/login");
+      return props?.push("/auth/login");
     },
   },
 ];

@@ -37,7 +37,7 @@ function Verify() {
     },
     resolver: zodResolver(VerifySchema),
   });
-  const [email, setEmail] = useSessionStorage("email", "");
+  const [email] = useSessionStorage("email", "");
   const router = useRouter();
   const onSubmit: SubmitHandler<IVerifyProps> = async (
     values: IVerifyProps

@@ -1,5 +1,6 @@
 "use client";
 
+import Friends from "@app/tawk/chat/_components/friends";
 import UserChat from "@components/common/user-chat";
 import { ChatList } from "@data/data";
 import { Button, Divider } from "@nextui-org/react";
@@ -19,14 +20,17 @@ function LeftSideBar({ title, children, isGroup = false }: Props) {
         <div className="flex items-center justify-between">
           <h1>{title}</h1>
           {!isGroup && (
-            <Button
-              size="lg"
-              variant="light"
-              isIconOnly
-              aria-label={"circle dashed"}
-            >
-              <CircleDashed color="#676667" size={"32px"} />
-            </Button>
+            <div className="flex gap-4 items-center">
+              <Friends />
+              <Button
+                size="md"
+                variant="light"
+                isIconOnly
+                aria-label={"circle dashed"}
+              >
+                <CircleDashed color="#676667" size={"28px"} />
+              </Button>
+            </div>
           )}
         </div>
         <div className="pt-8 pb-9">
