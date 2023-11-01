@@ -3,7 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Link } from "@nextui-org/react";
 import { IApiErrorResponse, IApiResponse } from "@type/index";
-import axios from "@utils/axios";
 import { logger } from "@utils/logger";
 import NextLink from "next/link";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -12,6 +11,7 @@ import z from "zod";
 import PasswordInput from "../../../components/forms/password-input";
 import TextInput from "../../../components/forms/text-input";
 
+import axiosInstance from "@utils/axios";
 import { cookie } from "@utils/cookie";
 import { useRouter } from "next/navigation";
 import { config } from "src/config";
@@ -44,16 +44,17 @@ function LoginForm() {
   const router = useRouter();
   const onSubmit: SubmitHandler<ILoginProps> = async (values: ILoginProps) => {
     try {
-      const { data }: { data: IApiResponse<{ token: string }> } =
-        await axios.post("/auth/login", { ...values });
+      const { data }: { data: IApiResponse<{ token: string; id: string }> } =
+        await axiosInstance.post("/auth/login", { ...values });
       toast.success(data.message!);
       reset();
       cookie.set(data.data!.token, config.cookiesExpireTime);
+      localStorage.setItem("userId", data.data!.id);
       router.push("/tawk/chat");
     } catch (error: unknown) {
       logger.log(error);
       const err = (error as any)?.response?.data as IApiErrorResponse;
-      toast.error(err.message ?? "Something went wrong");
+      toast.error(err?.message ?? "Something went wrong");
     }
   };
 

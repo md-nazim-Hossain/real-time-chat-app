@@ -1,4 +1,4 @@
-import { deleteCookie, setCookie } from "cookies-next";
+import { deleteCookie, getCookie, setCookie } from "cookies-next";
 
 const set = (value: string, expires: number) => {
   setCookie("token", value, {
@@ -12,7 +12,12 @@ const remove = () => {
   deleteCookie("token");
 };
 
+const getToken = () => {
+  return getCookie("token");
+};
+
 export const cookie = {
   set,
   remove,
+  getToken,
 };

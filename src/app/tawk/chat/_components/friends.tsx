@@ -1,8 +1,10 @@
 "use client";
 
+import UserList from "@components/common/user-list";
 import {
   Button,
   Modal,
+  ModalBody,
   ModalContent,
   ModalFooter,
   ModalHeader,
@@ -49,18 +51,40 @@ function Friends() {
                   color="primary"
                   aria-label="Dynamic tabs"
                 >
-                  <Tab key="explore">Explore</Tab>
-                  <Tab key="friends">Friends</Tab>
-                  <Tab key="requests">Requests</Tab>
+                  <Tab key="explore" title="Explore" />
+                  <Tab key="friends" title="Friends" />
+                  <Tab key="requests" title="Requests" />
                 </Tabs>
               </ModalHeader>
-
+              <ModalBody>
+                {(() => {
+                  switch (value) {
+                    case "explore":
+                      return <UserList />;
+                    case "friends":
+                      return <p>Friends</p>;
+                    case "requests":
+                      return <p>Requests</p>;
+                  }
+                })()}
+              </ModalBody>
               <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Close
+                <Button
+                  onPress={onClose}
+                  className="font-semibold border-1"
+                  radius="sm"
+                  variant="bordered"
+                >
+                  Cancel
                 </Button>
-                <Button color="primary" onPress={onClose}>
-                  Action
+                <Button
+                  onPress={onClose}
+                  className="font-semibold"
+                  radius="sm"
+                  color="primary"
+                  type="submit"
+                >
+                  Create Group
                 </Button>
               </ModalFooter>
             </>

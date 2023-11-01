@@ -2,7 +2,9 @@ import axios from "axios";
 import { config } from "src/config";
 const axiosInstance = axios.create({
   baseURL: config.apiUrl,
-  headers: { "Content-Type": "application/json" },
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 axios.interceptors.response.use(
   (response) => response?.data,

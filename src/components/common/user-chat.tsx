@@ -13,7 +13,7 @@ function UserChat({ chat }: Props) {
   const currentChat = +id === chat.id;
   return (
     <Link
-      href={`/chat/${chat.id}`}
+      href={`/tawk/chat/${chat.id}`}
       as={NextLink}
       className={cn(
         "rounded-[15px] p-4 flex justify-between cursor-pointer",

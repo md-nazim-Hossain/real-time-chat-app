@@ -57,7 +57,7 @@ export interface ICall {
   type: "video" | "audio";
 }
 
-type IApiResponse<T> = {
+export type IApiResponse<T> = {
   success: boolean;
   message?: string | null;
   statusCode: number;
@@ -69,11 +69,35 @@ type IApiResponse<T> = {
   } | null;
 };
 
-type IApiErrorResponse = {
+export type IApiErrorResponse = {
   success: boolean;
   message: string;
   errorMessages: Array<{
     message: string;
     path: string;
   }>;
+};
+
+export type IUser = {
+  _id: Types.ObjectId;
+  firstName: string;
+  lastName: string;
+  avatar?: string;
+  about?: string;
+  email: string;
+  password: string;
+  passwordConfirm: string;
+  passwordChangeAt?: Date;
+  passwordResetToken?: string;
+  passwordResetExpires?: Date | number;
+  verified: boolean;
+  otp: string | undefined;
+  otpExpiredAt: Date | undefined;
+  socketId?: string;
+  friends: Array<Types.ObjectId | IFriendRequest>;
+};
+
+export type IFriendRequest = {
+  sender: ObjectId | IUser;
+  receipt: ObjectId | IUser;
 };

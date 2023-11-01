@@ -14,3 +14,15 @@ export const sendApiResponse = <T>(data: IApiResponse<T>): NextResponse => {
     status: statusCode,
   });
 };
+
+export const sendResponse = <T>(data: IApiResponse<T>): IApiResponse<T> => {
+  const { message, statusCode, success } = data;
+  const responseData: IApiResponse<T> = {
+    statusCode,
+    success,
+    message: message || null,
+    meta: data?.meta || null,
+    data: data?.data || null,
+  };
+  return responseData;
+};

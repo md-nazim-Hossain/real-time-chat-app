@@ -51,7 +51,7 @@ function DashboardSidebar() {
         <Divider className="my-6" />
         <div className="flex items-center justify-center">
           <Button
-            href={`/settings`}
+            href={`/tawk/settings`}
             as={Link}
             variant={!settingActive ? "light" : "solid"}
             isIconOnly
