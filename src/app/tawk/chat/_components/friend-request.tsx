@@ -4,19 +4,18 @@ import UserAction from "@components/common/user-action";
 import UserListSkeleton from "@components/skeleton/user-list-skeleton";
 import { useQuery } from "@tanstack/react-query";
 import { IUser } from "@type/index";
-import { getAllFriendRequests, getFriends } from "@utils/actions";
+import { getAllFriendRequests } from "@utils/actions";
 import { socket } from "@utils/socket";
-import { Chat } from "phosphor-react";
 import React from "react";
+import toast from "react-hot-toast";
 
-function Friends() {
+function FriendRequest() {
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["getFriends"],
-    queryFn: async () => await getFriends(),
+    queryKey: ["getAllFriendRequest"],
+    queryFn: async () => await getAllFriendRequests(),
   });
 
   if (isLoading) return <UserListSkeleton />;
-  const userId = window.localStorage.getItem("userId");
   return (
     <div>
       {data.length ? (
@@ -25,13 +24,11 @@ function Friends() {
             return (
               <UserAction
                 action={() =>
-                  userId &&
-                  socket.emit("startConversation", {
-                    to: user._id,
-                    from: userId,
+                  socket.emit("acceptRequest", { requestId: user?._id }, () => {
+                    toast.success("Friend request accepted successfully");
                   })
                 }
-                buttonText={<Chat />}
+                buttonText="Accept Request"
                 key={index}
                 user={user}
               />
@@ -39,10 +36,10 @@ function Friends() {
           })}
         </div>
       ) : (
-        <p className="text-center py-2">No Friends</p>
+        <p className="text-center py-2">No Friend Request</p>
       )}
     </div>
   );
 }
 
-export default Friends;
+export default FriendRequest;

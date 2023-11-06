@@ -95,9 +95,12 @@ export type IUser = {
   otpExpiredAt: Date | undefined;
   socketId?: string;
   friends: Array<Types.ObjectId | IFriendRequest>;
+  status: "Online" | "Offline";
 };
 
 export type IFriendRequest = {
   sender: ObjectId | IUser;
   receipt: ObjectId | IUser;
 };
+
+export type IChatType = "individual" | "group" | null;

@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { IChatType } from "@type/index";
 
 type ChatSidebarType = "CONTACT" | "STARRED" | "SHARED";
 interface InitialStateProps {
@@ -10,6 +11,8 @@ interface InitialStateProps {
   users: any[];
   friends: any[];
   friendRequests: any[];
+  chatType: IChatType;
+  roomId: string | null;
 }
 
 const initialState: InitialStateProps = {
@@ -20,6 +23,8 @@ const initialState: InitialStateProps = {
   friendRequests: [],
   friends: [],
   users: [],
+  chatType: null,
+  roomId: null,
 };
 
 const chatContactSlice = createSlice({
@@ -50,6 +55,11 @@ const chatContactSlice = createSlice({
       action: PayloadAction<{ friendRequests: any[] }>
     ) => {
       state.users = action.payload.friendRequests;
+    },
+
+    selectConversation: (state, action) => {
+      state.chatType = action.payload.chatType ?? "individual";
+      state.roomId = action.payload.roomId;
     },
   },
 });

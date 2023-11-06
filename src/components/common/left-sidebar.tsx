@@ -1,6 +1,6 @@
 "use client";
 
-import Friends from "@app/tawk/chat/_components/friends";
+import UserChatControl from "@app/tawk/chat/_components/user-chat-control";
 import UserChat from "@components/common/user-chat";
 import { ChatList } from "@data/data";
 import { Button, Divider } from "@nextui-org/react";
@@ -21,7 +21,7 @@ function LeftSideBar({ title, children, isGroup = false }: Props) {
           <h1>{title}</h1>
           {!isGroup && (
             <div className="flex gap-4 items-center">
-              <Friends />
+              <UserChatControl />
               <Button
                 size="md"
                 variant="light"
