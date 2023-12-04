@@ -22,13 +22,13 @@ function ChatAvatar({
           as={"button"}
           onClick={onClick}
           className="w-full h-full"
-          alt={"My Avatar " + chat.id}
-          src={chat.img}
+          alt={"My Avatar " + chat?.id}
+          src={chat?.img}
         />
         <span
           className={cn(
             "z-10 border-2 border-white translate-y-1/2 absolute bottom-[4px] right-1 w-[12px] h-[12px] rounded-full  inline-block",
-            chat.online ? "bg-[#76D45E]" : "bg-dark-gray"
+            chat?.online ? "bg-[#76D45E]" : "bg-dark-gray"
           )}
         ></span>
       </div>
@@ -39,7 +39,7 @@ function ChatAvatar({
             currentChat ? "text-white " : "text-[#030303] dark:text-white"
           )}
         >
-          {chat.name}
+          {chat?.name}
         </p>
         <p
           className={cn(
@@ -51,7 +51,7 @@ function ChatAvatar({
               : "text-[#7C7C7D]"
           )}
         >
-          {isChat ? "Online" : chat.msg}
+          {isChat ? "Online" : chat?.msg}
         </p>
       </div>
     </div>

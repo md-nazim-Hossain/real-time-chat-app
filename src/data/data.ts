@@ -169,7 +169,7 @@ const CallList: ICall[] = [
 
 const ChatList: IChatList[] = [
   {
-    id: 0,
+    id: "0",
     img: faker.image.url(),
     name: faker.person.firstName(),
     msg: faker.music.songName(),
@@ -179,7 +179,7 @@ const ChatList: IChatList[] = [
     online: true,
   },
   {
-    id: 1,
+    id: "1",
     img: faker.image.url(),
     name: faker.person.firstName(),
     msg: faker.music.songName(),
@@ -189,7 +189,7 @@ const ChatList: IChatList[] = [
     online: false,
   },
   {
-    id: 2,
+    id: " 2",
     img: faker.image.url(),
     name: faker.person.firstName(),
     msg: faker.music.songName(),
@@ -199,7 +199,7 @@ const ChatList: IChatList[] = [
     online: true,
   },
   {
-    id: 3,
+    id: "3",
     img: faker.image.url(),
     name: faker.person.firstName(),
     msg: faker.music.songName(),
@@ -209,7 +209,7 @@ const ChatList: IChatList[] = [
     online: true,
   },
   {
-    id: 4,
+    id: "4",
     img: faker.image.url(),
     name: faker.person.firstName(),
     msg: faker.music.songName(),
@@ -219,7 +219,7 @@ const ChatList: IChatList[] = [
     online: false,
   },
   {
-    id: 5,
+    id: "5",
     img: faker.image.url(),
     name: faker.person.firstName(),
     msg: faker.music.songName(),
@@ -229,7 +229,7 @@ const ChatList: IChatList[] = [
     online: false,
   },
   {
-    id: 6,
+    id: "6",
     img: faker.image.url(),
     name: faker.person.firstName(),
     msg: faker.music.songName(),
@@ -239,7 +239,7 @@ const ChatList: IChatList[] = [
     online: false,
   },
   {
-    id: 7,
+    id: "7",
     img: faker.image.url(),
     name: faker.person.firstName(),
     msg: faker.music.songName(),
@@ -492,7 +492,8 @@ const Profile_Menu = [
     title: "Profile",
     icon: User,
     onclick: (props?: AppRouterInstance) => {
-      return props?.push("/tawk/profile");
+      const userId = localStorage.getItem("userId");
+      return props?.push(`/tawk/profile?userId=${userId}`);
     },
   },
   {

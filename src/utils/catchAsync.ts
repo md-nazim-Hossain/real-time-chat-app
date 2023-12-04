@@ -31,8 +31,19 @@ export const catchAsyncFetch = (fn: any) => {
         : error instanceof Error
         ? error?.message
         : "Something went wrong";
-      toast.error(er);
+      toast?.error(er);
       logger.log(error);
+      return [];
+    }
+  };
+};
+export const catchAsyncServerActions = (fn: any) => {
+  return async (data?: any) => {
+    try {
+      return await fn(data);
+    } catch (error: unknown) {
+      const message = (error as any)?.response?.data;
+      logger.log(message);
       return [];
     }
   };

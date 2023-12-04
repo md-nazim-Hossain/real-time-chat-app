@@ -1,10 +1,12 @@
 import { Action, ThunkAction, configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import chatContactSlice from "./slice/chatContactSlice";
+import conversationSlice from "./slice/conversationSlice";
 
 export const store = configureStore({
   reducer: {
     chatContactSlice: chatContactSlice,
+    conversation: conversationSlice,
   },
 });
 

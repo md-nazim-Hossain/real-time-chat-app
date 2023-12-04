@@ -29,5 +29,8 @@ module.exports = (phase) => {
         "cloudflare-ipfs.com",
       ],
     },
+    experimental: {
+      serverActions: true,
+    },
   };
 };

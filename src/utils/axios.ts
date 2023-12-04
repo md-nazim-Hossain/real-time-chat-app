@@ -6,14 +6,14 @@ const axiosInstance = axios.create({
     "Content-Type": "application/json",
   },
 });
-axios.interceptors.response.use(
-  (response) => response?.data,
-  (error) => {
-    return (
-      Promise.reject(error?.response && error?.response.data) ||
-      "Something went wrong"
-    );
-  }
-);
+// axios.interceptors.response.use(
+//   (response) => response?.data,
+//   (error) => {
+//     return (
+//       Promise.reject(error?.response && error?.response.data) ||
+//       "Something went wrong"
+//     );
+//   }
+// );
 
 export default axiosInstance;

@@ -16,7 +16,11 @@ function ChatLayout({ children }: { children: React.ReactNode }) {
     chatSidebar: { type },
   } = useAppSelector((state) => state.chatContactSlice);
   const { id } = useParams();
-  const chat = ChatList.find((item: IChatList) => item.id === +id);
+  const { conversations } = useAppSelector(
+    (state) => state.conversation.directChat
+  );
+  const chat = conversations.find((item: IChatList) => item.id === id);
+
   return (
     <div className="flex relative h-screen w-full">
       <div className="flex-1">

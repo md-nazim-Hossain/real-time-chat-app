@@ -10,10 +10,10 @@ type Props = {
 };
 function UserChat({ chat }: Props) {
   const { id } = useParams();
-  const currentChat = +id === chat.id;
+  const currentChat = id === chat?.id;
   return (
     <Link
-      href={`/tawk/chat/${chat.id}`}
+      href={`/tawk/chat/${chat?.id}`}
       as={NextLink}
       className={cn(
         "rounded-[15px] p-4 flex justify-between cursor-pointer",
@@ -28,11 +28,11 @@ function UserChat({ chat }: Props) {
             currentChat ? "text-white" : "text-dark-gray"
           )}
         >
-          {chat.time}
+          {chat?.time}
         </p>
-        {chat.unread > 0 && (
+        {chat?.unread > 0 && (
           <p className="bg-secondary flex justify-center items-center w-4 h-4 rounded-full text-white font-bold text-[10px] ">
-            <span>{chat.unread}</span>
+            <span>{chat?.unread}</span>
           </p>
         )}
       </div>

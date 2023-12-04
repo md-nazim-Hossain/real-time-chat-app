@@ -57,9 +57,14 @@ const chatContactSlice = createSlice({
       state.users = action.payload.friendRequests;
     },
 
-    selectConversation: (state, action) => {
+    selectConversation: (
+      state,
+      action: PayloadAction<{ roomId?: string; chatType?: IChatType }>
+    ) => {
+      if (action.payload.roomId) {
+        state.roomId = action.payload.roomId;
+      }
       state.chatType = action.payload.chatType ?? "individual";
-      state.roomId = action.payload.roomId;
     },
   },
 });
@@ -72,5 +77,6 @@ export const {
   updateFriendRequests,
   updateFriends,
   updateUsers,
+  selectConversation,
 } = chatContactSlice.actions;
 export default chatContactSlice.reducer;

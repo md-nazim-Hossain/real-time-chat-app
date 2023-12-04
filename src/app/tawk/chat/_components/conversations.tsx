@@ -1,8 +1,7 @@
 "use client";
 
-import { Chat_History } from "@data/data";
 import { cn } from "@nextui-org/react";
-import { IChatHistory } from "@type/index";
+import { IChatHistory, IChatList } from "@type/index";
 import {
   DocumentMessage,
   LinkMessage,
@@ -11,24 +10,54 @@ import {
   ReplyMessage,
   TextMessage,
 } from "./message-type";
-import { useAppDispatch } from "@redux/store";
+import { useAppDispatch, useAppSelector } from "@redux/store";
+import { MutableRefObject, useEffect, useRef } from "react";
+import { socket } from "@utils/socket";
+import {
+  setCurrentConversation,
+  setCurrentMessages,
+} from "@redux/slice/conversationSlice";
 
 function Conversations({
   showMenu,
   className,
+  ref,
 }: {
   showMenu?: boolean;
   className?: string;
+  ref?: MutableRefObject<HTMLDivElement | null>;
 }) {
+  const dispatch = useAppDispatch();
+  const { conversations, currentMessages } = useAppSelector(
+    (state) => state.conversation.directChat
+  );
+  const { roomId } = useAppSelector((state) => state.chatContactSlice);
+  useEffect(() => {
+    const current = conversations.find(
+      (el: IChatList) => el?.id === (roomId as string)
+    );
+    if (current) {
+      socket?.emit(
+        "getMessages",
+        { conversation_id: current?.id },
+        (data: any) => {
+          dispatch(setCurrentMessages({ messages: data }));
+        }
+      );
+      dispatch(setCurrentConversation(current));
+    }
+  }, []);
+
   return (
     <div
+      ref={ref}
       className={cn(
         "w-full h-full bg-theme-light dark:bg-theme-dark p-5 overflow-y-scroll scroll",
         className
       )}
     >
       <div>
-        {Chat_History.map((item: IChatHistory, index: number) => {
+        {currentMessages?.map((item: IChatHistory, index: number) => {
           switch (item.type) {
             case "divider":
               return <MessageTimeline key={index} text={item.text as string} />;

@@ -64,7 +64,7 @@ function UserChatControl() {
                     case "explore":
                       return <UserList />;
                     case "friends":
-                      return <Friends />;
+                      return <Friends onClose={onClose} />;
                     case "requests":
                       return <FriendRequest />;
                   }

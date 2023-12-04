@@ -44,3 +44,37 @@ export const getAllFriendRequests = catchAsyncFetch(async () => {
   const friendRequest = data.data;
   return friendRequest;
 });
+
+export const getUserProfile = catchAsyncFetch(async (userId: string) => {
+  const { data }: { data: IApiResponse<IUser[]> } = await axiosInstance.get(
+    "/user/profile",
+    {
+      params: {
+        userId,
+      },
+      headers: {
+        authorization: `Bearer ${cookie.getToken()}`,
+      },
+    }
+  );
+  const profile = data.data;
+  return profile;
+});
+export const updateProfile = catchAsyncFetch(
+  async (data: Omit<IUser, "firstName" | "lastName" | "about" | "avatar">) => {
+    const { data: updated }: { data: IApiResponse<IUser[]> } =
+      await axiosInstance.patch(
+        "/user/update-me",
+        {
+          ...data,
+        },
+        {
+          headers: {
+            authorization: `Bearer ${cookie.getToken()}`,
+          },
+        }
+      );
+    const profile = updated.data;
+    return profile;
+  }
+);

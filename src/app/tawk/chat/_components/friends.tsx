@@ -9,7 +9,7 @@ import { socket } from "@utils/socket";
 import { Chat } from "phosphor-react";
 import React from "react";
 
-function Friends() {
+function Friends({ onClose }: { onClose: () => void }) {
   const { data, isLoading, isError } = useQuery({
     queryKey: ["getFriends"],
     queryFn: async () => await getFriends(),
@@ -17,6 +17,7 @@ function Friends() {
 
   if (isLoading) return <UserListSkeleton />;
   const userId = window.localStorage.getItem("userId");
+
   return (
     <div>
       {data.length ? (
@@ -24,14 +25,15 @@ function Friends() {
           {data.map((user: IUser, index: number) => {
             return (
               <UserAction
-                action={() =>
+                action={() => {
                   userId &&
-                  socket.emit("startConversation", {
-                    to: user._id,
-                    from: userId,
-                  })
-                }
-                buttonText={<Chat />}
+                    socket.emit("startConversation", {
+                      to: user._id,
+                      from: userId,
+                    });
+                  onClose();
+                }}
+                buttonText={<Chat size={20} />}
                 key={index}
                 user={user}
               />

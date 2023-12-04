@@ -6,7 +6,7 @@ import NextImage from "next/image";
 
 function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="container mx-auto flex flex-col items-center min-h-screen py-5 gap-5">
+    <div className="container mx-auto flex flex-col justify-center items-center min-h-screen py-5 gap-5">
       <Image
         as={NextImage}
         src="/assets/images/logo.ico"

@@ -7,7 +7,8 @@ export interface ISidebar {
 }
 
 export interface IChatList {
-  id: number;
+  id: string;
+  userId?: string;
   img: string;
   name: string;
   msg: string;
