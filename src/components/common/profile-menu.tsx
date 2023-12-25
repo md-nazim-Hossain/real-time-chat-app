@@ -8,9 +8,10 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from "@nextui-org/react";
+import { IProfile } from "@type/index";
 import { useRouter } from "next/navigation";
 
-function ProfileMenu() {
+function ProfileMenu({ data }: { data: IProfile }) {
   const router = useRouter();
   return (
     <Dropdown placement="right-end">
@@ -18,7 +19,9 @@ function ProfileMenu() {
         <Avatar
           as="button"
           alt="My Avatar"
-          src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
+          src={
+            data?.avatar ?? "https://i.pravatar.cc/150?u=a042581f4e29026024d"
+          }
           className="w-12 h-12"
         />
       </DropdownTrigger>

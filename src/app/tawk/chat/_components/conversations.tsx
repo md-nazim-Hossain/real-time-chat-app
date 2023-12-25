@@ -17,6 +17,7 @@ import {
   setCurrentConversation,
   setCurrentMessages,
 } from "@redux/slice/conversationSlice";
+import { useParams } from "next/navigation";
 
 function Conversations({
   showMenu,
@@ -32,20 +33,22 @@ function Conversations({
     (state) => state.conversation.directChat
   );
   const { roomId } = useAppSelector((state) => state.chatContactSlice);
+
   useEffect(() => {
     const current = conversations.find(
       (el: IChatList) => el?.id === (roomId as string)
     );
+
     if (current) {
       socket?.emit(
         "getMessages",
-        { conversation_id: current?.id },
+        { conversationId: current?.id },
         (data: any) => {
           dispatch(setCurrentMessages({ messages: data }));
         }
       );
-      dispatch(setCurrentConversation(current));
     }
+    dispatch(setCurrentConversation(current));
   }, []);
 
   return (

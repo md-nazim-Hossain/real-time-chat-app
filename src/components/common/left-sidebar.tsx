@@ -2,17 +2,15 @@
 
 import UserChatControl from "@app/tawk/chat/_components/user-chat-control";
 import UserChat from "@components/common/user-chat";
-import { ChatList } from "@data/data";
 import { Button, Divider } from "@nextui-org/react";
 import { IChatList } from "@type/index";
 import { CircleDashed } from "phosphor-react";
 import SearchInput from "./search-input";
-import { useQuery } from "@tanstack/react-query";
-import UserChatSkeleton from "@components/skeleton/user-chat-skeleton";
 import { socket } from "@utils/socket";
-import React from "react";
+import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@redux/store";
 import { setConversation } from "@redux/slice/conversationSlice";
+import UserChatSkeleton from "@components/skeleton/user-chat-skeleton";
 
 type Props = {
   title: string;
@@ -20,23 +18,25 @@ type Props = {
   isGroup?: boolean;
 };
 function LeftSideBar({ title, children, isGroup = false }: Props) {
+  const [isLoading, setIsLoading] = React.useState(true);
   const userId =
     typeof window !== "undefined" && localStorage.getItem("userId");
   const { conversations } = useAppSelector(
     (state) => state.conversation.directChat
   );
   const dispatch = useAppDispatch();
-  const { isLoading } = useQuery({
-    queryKey: ["getAllDirectConversation", userId],
-    queryFn: async () => {
-      let conversation: any[] = [];
-      await socket.emit("getDirectConversation", { userId }, (data: any) => {
-        conversation = data;
+  useEffect(() => {
+    if (userId) {
+      socket?.emit("getDirectConversation", { userId }, (data: any) => {
         dispatch(setConversation({ conversations: data }));
+        setIsLoading(false);
       });
-      return conversation;
-    },
-  });
+    }
+    return () => {
+      setIsLoading(false);
+      socket.off("getDirectConversation");
+    };
+  }, [userId]);
 
   return (
     <div className="relative w-[340px] h-full dark:bg-dark-light bg-light  shadow-sidebar">
@@ -92,6 +92,25 @@ function LeftSideBar({ title, children, isGroup = false }: Props) {
             </div>
           </div>
         )}
+        {/* <div className="p-5">
+          <p className="font-bold pl-3 mb-6 pt-4">Pinned</p>
+          <div className="space-y-5">
+            {conversations
+              .filter((chat) => chat.pinned)
+              .map((chat: IChatList, index: number) => {
+                return <UserChat chat={chat} key={index} />;
+              })}
+          </div>
+
+          <p className="font-bold pt-7 pb-5">All {title}</p>
+          <div className="space-y-5">
+            {conversations
+              .filter((chat) => !chat.pinned)
+              .map((chat: IChatList, index: number) => {
+                return <UserChat chat={chat} key={index} />;
+              })}
+          </div>
+        </div> */}
       </div>
     </div>
   );

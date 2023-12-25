@@ -2,7 +2,7 @@ import { faker } from "@faker-js/faker";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { IChatHistory, IChatList, IUser } from "@type/index";
 const userId =
-  typeof window !== "undefined" && window.localStorage.getItem("user_id");
+  typeof window !== "undefined" && window.localStorage.getItem("userId");
 interface InitialStateProps {
   directChat: {
     conversations: IChatList[];
@@ -64,7 +64,7 @@ const conversationSlice = createSlice({
             return el;
           } else {
             const user = thisConversation.participants.find(
-              (elm: IUser) => elm._id.toString() !== userId
+              (elm: IUser) => elm._id.toString() === userId
             );
             return {
               id: thisConversation._id,

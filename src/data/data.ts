@@ -1,13 +1,15 @@
 import { faker } from "@faker-js/faker";
 import {
   IActions,
+  IApiErrorResponse,
+  IApiResponse,
   ICall,
   IChatHistory,
   IChatList,
   ISettings,
   ISidebar,
 } from "@type/index";
-import { cookie } from "@utils/cookie";
+import axiosInstance from "@utils/axios";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import {
   Bell,
@@ -28,6 +30,7 @@ import {
   User,
   Users,
 } from "phosphor-react";
+import toast from "react-hot-toast";
 
 const dashboardSidebarData: ISidebar[] = [
   {
@@ -508,10 +511,16 @@ const Profile_Menu = [
   {
     title: "Sign Out",
     icon: SignOut,
-    onclick: (props?: AppRouterInstance) => {
-      cookie.remove();
-      localStorage.removeItem("userId");
-      return props?.push("/auth/login");
+    onclick: async (props?: AppRouterInstance) => {
+      try {
+        await axiosInstance.post("/auth/logout");
+        toast.success("Logout Successfully");
+        localStorage.removeItem("userId");
+        return props?.push("/auth/login");
+      } catch (error) {
+        const err = (error as any)?.response?.data as IApiErrorResponse;
+        toast.error(err?.message ?? "Something went wrong");
+      }
     },
   },
 ];

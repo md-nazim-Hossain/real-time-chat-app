@@ -2,16 +2,27 @@
 
 import { DashboardTheme } from "@components/theme/theme";
 import { dashboardSidebarData } from "@data/data";
-import { Button, Divider, Image } from "@nextui-org/react";
+import { Button, Divider, Image, Skeleton } from "@nextui-org/react";
 import { ISidebar } from "@type/index";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Gear } from "phosphor-react";
 import ProfileMenu from "./profile-menu";
+import { useQuery } from "@tanstack/react-query";
+import { getUserProfile } from "@utils/actions";
 
 function DashboardSidebar() {
   const pathname = usePathname();
   const settingActive = pathname === "/settings";
+  const userId =
+    typeof window !== "undefined" && localStorage.getItem("userId");
+  const { data, isLoading } = useQuery({
+    queryKey: ["getProfile", userId],
+    queryFn: async () => {
+      const profile = await getUserProfile(userId);
+      return profile;
+    },
+  });
   return (
     <div className="shadow-sidebar dark:bg-theme-dark bg-theme-light w-[100px] h-screen py-5 flex flex-col items-center justify-between">
       <div>
@@ -64,7 +75,11 @@ function DashboardSidebar() {
       </div>
       <div className="gap-6 flex flex-col items-center justify-center">
         <DashboardTheme />
-        <ProfileMenu />
+        {isLoading ? (
+          <Skeleton className="w-12 h-12 rounded-full" />
+        ) : (
+          <ProfileMenu data={data} />
+        )}
       </div>
     </div>
   );

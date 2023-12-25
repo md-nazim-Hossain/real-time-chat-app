@@ -105,3 +105,7 @@ export type IFriendRequest = {
 };
 
 export type IChatType = "individual" | "group" | null;
+export type IProfile = Pick<
+  IUser,
+  "firstName" | "lastName" | "email" | "avatar" | "_id" | "status" | "about"
+>;

@@ -5,15 +5,21 @@ import { IChatList } from "@type/index";
 import NextLink from "next/link";
 import { useParams } from "next/navigation";
 import ChatAvatar from "./chat-avatar";
+import { useAppDispatch } from "@redux/store";
+import { selectConversation } from "@redux/slice/chatContactSlice";
 type Props = {
   chat: IChatList;
 };
 function UserChat({ chat }: Props) {
   const { id } = useParams();
-  const currentChat = id === chat?.id;
+  const currentChat = id === chat?.userId;
+  const dispatch = useAppDispatch();
   return (
     <Link
-      href={`/tawk/chat/${chat?.id}`}
+      onPress={() => {
+        dispatch(selectConversation({ roomId: chat?.id }));
+      }}
+      href={`/tawk/chat/${chat?.userId}`}
       as={NextLink}
       className={cn(
         "rounded-[15px] p-4 flex justify-between cursor-pointer",

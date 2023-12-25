@@ -1,17 +1,16 @@
 "use client";
 
 import { IApiResponse, IUser } from "@type/index";
-
 import axiosInstance from "./axios";
 import { catchAsyncFetch } from "./catchAsync";
-import { cookie } from "./cookie";
+import { getCookie } from "cookies-next";
 
 export const getAllUsers = catchAsyncFetch(async () => {
   const { data }: { data: IApiResponse<IUser[]> } = await axiosInstance.get(
     "/user/get-users",
     {
       headers: {
-        authorization: `Bearer ${cookie.getToken()}`,
+        authorization: `Bearer ${getCookie("accessToken")}`,
       },
     }
   );
@@ -24,7 +23,7 @@ export const getFriends = catchAsyncFetch(async () => {
     "/user/get-friends",
     {
       headers: {
-        authorization: `Bearer ${cookie.getToken()}`,
+        authorization: `Bearer ${getCookie("accessToken")}`,
       },
     }
   );
@@ -37,7 +36,7 @@ export const getAllFriendRequests = catchAsyncFetch(async () => {
     "/user/get-friend-requests",
     {
       headers: {
-        authorization: `Bearer ${cookie.getToken()}`,
+        authorization: `Bearer ${getCookie("accessToken")}`,
       },
     }
   );
@@ -53,13 +52,14 @@ export const getUserProfile = catchAsyncFetch(async (userId: string) => {
         userId,
       },
       headers: {
-        authorization: `Bearer ${cookie.getToken()}`,
+        authorization: `Bearer ${getCookie("accessToken")}`,
       },
     }
   );
   const profile = data.data;
   return profile;
 });
+
 export const updateProfile = catchAsyncFetch(
   async (data: Omit<IUser, "firstName" | "lastName" | "about" | "avatar">) => {
     const { data: updated }: { data: IApiResponse<IUser[]> } =
@@ -70,7 +70,7 @@ export const updateProfile = catchAsyncFetch(
         },
         {
           headers: {
-            authorization: `Bearer ${cookie.getToken()}`,
+            authorization: `Bearer ${getCookie("accessToken")}`,
           },
         }
       );

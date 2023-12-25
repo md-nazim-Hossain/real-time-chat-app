@@ -3,7 +3,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Link } from "@nextui-org/react";
 import { IApiErrorResponse, IApiResponse } from "@type/index";
 import axiosInstance from "@utils/axios";
-import { cookie } from "@utils/cookie";
 import { logger } from "@utils/logger";
 import NextLink from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -48,13 +47,14 @@ function NewPasswordForm() {
     values: INewPasswordProps
   ) => {
     try {
-      const { data }: { data: IApiResponse<{ token: string }> } =
-        await axiosInstance.post("/auth/reset-password", {
+      const { data }: { data: IApiResponse<null> } = await axiosInstance.post(
+        "/auth/reset-password",
+        {
           password: values.password,
           token,
-        });
+        }
+      );
       toast.success("Password Reset successfully");
-      cookie.set(data.data!.token, config.cookiesExpireTime);
       reset();
       router.push("/tawk/chat");
     } catch (error: unknown) {

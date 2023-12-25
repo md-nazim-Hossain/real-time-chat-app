@@ -1,35 +1,36 @@
 "use client";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+
 import DashboardSidebar from "@components/common/dashboard-sidebar";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React, { useEffect } from "react";
-import { cookie } from "@utils/cookie";
 import { connectSocket, socket } from "@utils/socket";
 import toast from "react-hot-toast";
 import { useAppDispatch, useAppSelector } from "@redux/store";
 import {
   addDirectConversation,
   addDirectMessage,
-  setCurrentConversation,
   updateDirectConversation,
 } from "@redux/slice/conversationSlice";
 import { selectConversation } from "@redux/slice/chatContactSlice";
 import { useRouter } from "next/navigation";
+import { IUser } from "@type/index";
 function Layout({ children }: { children: React.ReactNode }) {
-  const token = cookie.getToken();
   const dispatch = useAppDispatch();
   const router = useRouter();
   const { conversations, currentConversation } = useAppSelector(
     (state) => state.conversation.directChat
   );
+
   useEffect(() => {
-    if (token && typeof window !== "undefined") {
+    if (typeof window !== "undefined") {
       const userId = localStorage.getItem("userId");
-      window.onload = () => {
-        if (!window.location.hash) {
-          window.location.hash = "#loaded";
-          window.location.reload();
-        }
-      };
+      // window.onload = () => {
+      //   if (!window.location.hash) {
+      //     window.location.hash = "#loaded";
+      //     window.location.reload();
+      //   }
+      // };
       if (!socket) {
         connectSocket(userId!);
       }
@@ -53,18 +54,22 @@ function Layout({ children }: { children: React.ReactNode }) {
         const existingConversation = conversations.find(
           (el) => el?.id === data._id
         );
+
         if (existingConversation) {
           dispatch(updateDirectConversation({ conversation: data }));
         } else {
           dispatch(addDirectConversation({ conversation: data }));
         }
+        const userFind = data?.participants.find(
+          (p: IUser) => p._id !== userId
+        );
         dispatch(selectConversation({ roomId: data._id }));
-        router.push("/tawk/chat/" + data._id);
+        router.push("/tawk/chat/" + userFind._id);
       });
 
       socket.on("newMessage", (data: any) => {
         const message = data?.message;
-        if ((currentConversation.id = data?.conversationId)) {
+        if (currentConversation?.id === data?.conversationId) {
           dispatch(
             addDirectMessage({
               message: {
@@ -87,23 +92,19 @@ function Layout({ children }: { children: React.ReactNode }) {
       socket.off("startChat");
       socket.off("newMessage");
     };
-  }, [token, socket]);
+  }, [socket]);
 
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        staleTime: 1000 * 60 * 5,
-        refetchOnWindowFocus: false,
-      },
-    },
-  });
+  const [client] = React.useState(() => new QueryClient());
 
   return (
-    <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={client}>
       <div className="w-screen h-screen overflow-hidden flex">
         <DashboardSidebar />
         <div className="flex-1">{children}</div>
       </div>
+      {process.env.NODE_ENV === "development" && (
+        <ReactQueryDevtools initialIsOpen={false} />
+      )}
     </QueryClientProvider>
   );
 }

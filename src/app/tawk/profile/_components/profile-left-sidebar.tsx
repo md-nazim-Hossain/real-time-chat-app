@@ -4,7 +4,7 @@ import { faker } from "@faker-js/faker";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Avatar, Button, Textarea } from "@nextui-org/react";
 import { QueryClient, useQueryClient } from "@tanstack/react-query";
-import { IUser } from "@type/index";
+import { IProfile, IUser } from "@type/index";
 import { updateProfile } from "@utils/actions";
 import { convertImageToBase64 } from "@utils/base64";
 import { CaretLeft, Pen } from "phosphor-react";
@@ -21,7 +21,7 @@ const profileSchema = z.object({
 
 type IProfileProps = z.infer<typeof profileSchema>;
 type Props = {
-  data: IUser;
+  data: IProfile;
 };
 function ProfileLeftSidebar({ data }: Props) {
   const queryClient: QueryClient = useQueryClient();

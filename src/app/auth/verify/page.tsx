@@ -8,7 +8,6 @@ import z from "zod";
 import CodeForm from "@components/forms/code-form";
 import { IApiErrorResponse, IApiResponse } from "@type/index";
 import axiosInstance from "@utils/axios";
-import { cookie } from "@utils/cookie";
 import { logger } from "@utils/logger";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
@@ -44,11 +43,12 @@ function Verify() {
   ) => {
     try {
       const otp = `${values.code1}${values.code2}${values.code3}${values.code4}${values.code5}${values.code6}`;
-      const { data }: { data: IApiResponse<{ token: string }> } =
-        await axiosInstance.post("/auth/verify-otp", { email, otp });
+      const { data }: { data: IApiResponse<string> } = await axiosInstance.post(
+        "/auth/verify-otp",
+        { email, otp }
+      );
       toast.success(data.message!);
       methods.reset();
-      cookie.set(data.data!.token, config.cookiesExpireTime);
       sessionStorage.removeItem("email");
       router.push("/tawk/chat");
     } catch (error: unknown) {

@@ -5,9 +5,17 @@ import { LinkSimple, Smiley, TelegramLogo } from "phosphor-react";
 import { Dispatch, SetStateAction, useState } from "react";
 import ChatFooterActions from "./chat-footer-actions";
 import EmojiPicker from "./emoji-picker";
+import { socket } from "@utils/socket";
+import { containsUrl, linkify } from "@utils/message-modify";
+import { useAppSelector } from "@redux/store";
 
 function ChatFooter() {
   const [openEmojiPicker, setOpenEmojiPicker] = useState(false);
+  const { roomId } = useAppSelector((state) => state.chatContactSlice);
+  const { currentConversation } = useAppSelector(
+    (state) => state.conversation.directChat
+  );
+
   const [text, setText] = useState("");
   return (
     <div className="w-full dark:bg-dark-light bg-light h-[70px] px-6 py-5 flex justify-between items-center gap-6">
@@ -28,6 +36,15 @@ function ChatFooter() {
         isIconOnly
         color={"primary"}
         className="w-12 h-12 !flex-shrink-0"
+        onClick={() => {
+          socket.emit("textMessage", {
+            message: linkify(text),
+            conversationId: roomId,
+            from: localStorage.getItem("userId"),
+            to: currentConversation?.userId,
+            type: containsUrl(text) ? "Link" : "Text",
+          });
+        }}
       >
         <TelegramLogo size="24px" />
       </Button>

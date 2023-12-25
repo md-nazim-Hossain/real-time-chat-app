@@ -13,17 +13,7 @@ function MainProviders({ children }: ThemeProviderProps) {
     <NextUIProvider>
       <Provider store={store}>
         <ThemeProvider attribute="class">
-          <Toaster
-            // toastOptions={{
-            //   className: "",
-            //   style: {
-            //     backgroundColor: "#2C3246",
-            //     color: "white",
-            //   },
-            // }}
-            position="bottom-center"
-            reverseOrder={false}
-          />
+          <Toaster position="bottom-center" reverseOrder={false} />
           {children}
         </ThemeProvider>
       </Provider>

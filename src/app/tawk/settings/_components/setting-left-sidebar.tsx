@@ -3,10 +3,11 @@
 import UserInfoAvatar from "@components/common/user-info-avatar";
 import { ChatList, settingList } from "@data/data";
 import { Button, Divider, useDisclosure } from "@nextui-org/react";
-import { ISettings } from "@type/index";
+import { IProfile, ISettings } from "@type/index";
 import { CaretLeft } from "phosphor-react";
 import KeyboardShortcutsModal from "./keyboard-shortcuts-modal";
 import ThemeModal from "./theme-modal";
+import { useQueryClient } from "@tanstack/react-query";
 
 function SettingLeftSidebar() {
   const {
@@ -19,6 +20,13 @@ function SettingLeftSidebar() {
     onOpen: onOpenShortcuts,
     onOpenChange: onOpenChangeShortcuts,
   } = useDisclosure();
+  const userId = localStorage.getItem("userId");
+  const queryClient = useQueryClient();
+  const profileData = queryClient.getQueryData([
+    "getProfile",
+    userId,
+  ]) as IProfile;
+
   return (
     <div className="relative w-[340px] h-full dark:bg-dark-light bg-light  shadow-sidebar">
       <div className="p-5">
@@ -34,7 +42,7 @@ function SettingLeftSidebar() {
           <h1>Settings</h1>
         </div>
         <div className="py-7">
-          <UserInfoAvatar user={ChatList[0]} />
+          <UserInfoAvatar user={profileData ?? {}} />
         </div>
       </div>
 

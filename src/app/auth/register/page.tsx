@@ -58,13 +58,15 @@ function RegisterForm() {
     values: IRegisterProps
   ) => {
     try {
-      const { data }: { data: IApiResponse<{ token: string; id: string }> } =
-        await axiosInstance.post("/auth/register", { ...values });
+      const { data }: { data: IApiResponse<string> } = await axiosInstance.post(
+        "/auth/register",
+        { ...values }
+      );
       toast.success(data.message!);
       logger.log(data);
       reset();
       setEmail(values.email);
-      localStorage.setItem("userId", data.data!?.id);
+      localStorage.setItem("userId", data.data!);
       router.push("/auth/verify");
     } catch (error: unknown) {
       logger.log(error);

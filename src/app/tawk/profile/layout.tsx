@@ -1,24 +1,21 @@
 "use client";
 import React from "react";
 import ProfileLeftSidebar from "./_components/profile-left-sidebar";
-import { useQuery } from "@tanstack/react-query";
-import axiosInstance from "@utils/axios";
-import { cookie } from "@utils/cookie";
-import { getUserProfile } from "@utils/actions";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
+import { IProfile } from "@type/index";
 
 function ProfileLayout({ children }: { children: React.ReactNode }) {
   const userId = useSearchParams().get("userId");
-  const { data, isLoading } = useQuery({
-    queryKey: ["getProfile", userId],
-    queryFn: async () => {
-      const profile = await getUserProfile(userId);
-      return profile;
-    },
-  });
+  const queryClient = useQueryClient();
+  const profileData = queryClient.getQueryData([
+    "getProfile",
+    userId,
+  ]) as IProfile;
+
   return (
     <div className="flex relative h-screen w-[calc(100vw_-_100px)]">
-      {!isLoading && <ProfileLeftSidebar data={data} />}
+      {profileData && <ProfileLeftSidebar data={profileData} />}
       <div className="flex-1">{children}</div>
     </div>
   );
